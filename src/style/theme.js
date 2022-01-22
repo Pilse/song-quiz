@@ -5,6 +5,8 @@ const Colors = {
 
   Secondary: '#A267AC',
 
+  Error: '#FF6363',
+
   Black: '#000000',
 
   Gray: '#888888',
@@ -39,10 +41,10 @@ const TextStyles = {
 };
 
 const Shadow = {
-  boxShadow: css`
+  BoxShadow: css`
     box-shadow: 0 4px 32px 32px rgba(0, 0, 0, 0.1);
   `,
-  buttonShadow: css`
+  ButtonShadow: css`
     box-shadow: 0 4px 32px 16px rgba(0, 0, 0, 0.1);
   `,
 };
