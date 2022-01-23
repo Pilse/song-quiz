@@ -49,10 +49,22 @@ const Shadow = {
   `,
 };
 
+const Transition = {
+  ClickTransition: css`
+    cursor: pointer;
+    transition: 0.2s ease-out;
+
+    :hover {
+      transform: scale(0.95);
+    }
+  `,
+};
+
 const theme = {
   Colors,
   TextStyles,
   Shadow,
+  Transition,
 };
 
 export default theme;

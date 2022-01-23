@@ -3,14 +3,14 @@ import PropTypes from 'prop-types';
 
 import { InputLayout, TextInput, ErrorParagraph } from './Input.style';
 
-function Input({ placeholder, error, value, onChangeHandler }) {
+function Input({ placeholder, type, error, value, onChangeHandler }) {
   return (
     <InputLayout {...{ error }}>
       <TextInput
-        type="text"
+        type={type}
         placeholder={placeholder}
         value={value}
-        onChangeHandler={onChangeHandler}
+        onChange={onChangeHandler}
         {...{ error }}
       />
 
@@ -21,12 +21,14 @@ function Input({ placeholder, error, value, onChangeHandler }) {
 
 Input.propTypes = {
   placeholder: PropTypes.string.isRequired,
+  type: PropTypes.string,
   error: PropTypes.string,
   value: PropTypes.string,
   onChangeHandler: PropTypes.func.isRequired,
 };
 
 Input.defaultProps = {
+  type: 'text',
   error: null,
   value: '',
 };

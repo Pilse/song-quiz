@@ -1,13 +1,13 @@
 /* eslint-disable import/prefer-default-export */
 import styled from 'styled-components';
 
-export const NoticeLabelLayout = styled.div`
-  display: flex;
+export const NoticeLabelLayout = styled.p`
   width: 100%;
-  justify-content: center;
-  align-items: cetner;
+  text-align: center;
+  word-break: keep-all;
 
   color: ${({ theme }) => theme.Colors.Primary};
 
-  ${({ theme }) => theme.TextStyles.Paragraph4};
+  ${({ size, theme }) =>
+    size === 'sm' ? theme.TextStyles.Paragraph4 : theme.TextStyles.Paragraph2};
 `;

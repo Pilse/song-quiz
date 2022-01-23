@@ -9,14 +9,18 @@ const GlobalStyle = createGlobalStyle`
 
   body {
     font-family: 'Jua', 'sans-serif';
+    background: linear-gradient(#6867AC, #A267AC);
   }
 
   #root {
-    background: linear-gradient(#6867AC, #A267AC);
+    padding: 8px 16px;
     width: 100vw;
     height: 100vh;
     overflow-x: hidden;
-    overflow-y: hidden;
+  }
+
+  input {
+    font-family: inherit;
   }
 
   img {

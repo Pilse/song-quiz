@@ -12,9 +12,10 @@ export const TextInput = styled.input`
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 100%;
   border: none;
   outline: none;
-  padding: 0 10px;
+  padding: 25px 10px;
   border-radius: 10px;
 
   ::placeholder {
@@ -36,7 +37,8 @@ export const TextInput = styled.input`
 `;
 
 export const ErrorParagraph = styled.p`
-  padding-left: 16px;
+  padding-left: 12px;
+  height: 10px;
 
   color: ${({ theme }) => theme.Colors.Error};
 

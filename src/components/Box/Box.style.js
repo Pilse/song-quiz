@@ -2,7 +2,17 @@
 import styled, { css } from 'styled-components';
 
 export const BoxLayout = styled.div`
-  ${({ theme }) => theme.Shadow.BoxShadow}
+  display: flex;
+
+  background: ${({ theme }) => theme.Colors.White};
+
+  ${({ theme }) => theme.Shadow.BoxShadow};
+
+  ${({ column }) =>
+    column &&
+    css`
+      flex-direction: column;
+    `};
 
   ${({ size }) =>
     size === 'md'
@@ -12,6 +22,12 @@ export const BoxLayout = styled.div`
         `
       : css`
           border-radius: 20px;
-          padding: 30px 107xp;
+          padding: 30px 107px;
         `}
+
+  ${({ gap }) =>
+    gap &&
+    css`
+      gap: ${gap}px;
+    `};
 `;
