@@ -6,7 +6,7 @@ import validate from '../../../utils/validate';
 
 import Box from '../../../components/Box/Box';
 import Icon from '../../../components/Icon/Icon';
-import Input from '../../../components/Input/Input';
+import TextInput from '../../../components/Input/TextInput/TextInput';
 import NoticeLabel from '../../../components/Label/NoticeLabel/NoticeLabel';
 
 import { RoomCreateLayout, InputForm } from './RoomCreate.style';
@@ -52,7 +52,7 @@ function RoomCreate() {
           >
             <NoticeLabel size="lg" text={ROOM.LABEL.CONDITION} />
 
-            <Input
+            <TextInput
               type="number"
               placeholder={ROOM.PLACEHOLDER.CONDITION}
               value={condition}
@@ -70,7 +70,7 @@ function RoomCreate() {
           >
             <NoticeLabel size="lg" text={ROOM.LABEL.NICKNAME} />
 
-            <Input
+            <TextInput
               placeholder={ROOM.PLACEHOLDER.NICKNAME}
               value={nickname}
               onChangeHandler={e => setNickname(e.target.value)}

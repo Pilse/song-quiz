@@ -1,14 +1,14 @@
 /* eslint-disable import/prefer-default-export */
 import styled, { css } from 'styled-components';
 
-export const InputLayout = styled.div`
+export const TextInputLayout = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
   gap: 5px;
 `;
 
-export const TextInput = styled.input`
+export const Input = styled.input`
   display: flex;
   justify-content: center;
   align-items: center;

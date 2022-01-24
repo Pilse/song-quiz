@@ -13,7 +13,6 @@ const GlobalStyle = createGlobalStyle`
   }
 
   #root {
-    padding: 8px 16px;
     width: 100vw;
     height: 100vh;
     overflow-x: hidden;
@@ -25,6 +24,8 @@ const GlobalStyle = createGlobalStyle`
 
   img {
     object-fit: cover;
+    width: 100%;
+    height: 100%;
   }
 `;
 

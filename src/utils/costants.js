@@ -21,3 +21,13 @@ export const ROOM = {
     CODE: '올바르지 않은 초대코드입니다',
   },
 };
+
+export const GAME = {
+  START: '클릭하여 시작',
+  CODE: '초대코드',
+  USERS: '참가자',
+  TYPE: {
+    NOTICE: 'notice',
+    CHAT: 'chat',
+  },
+};

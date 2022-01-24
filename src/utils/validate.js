@@ -10,6 +10,11 @@ const nicknameValidator = () => {
   return true;
 };
 
+const codeValidator = () => {
+  // TODO code 유효검사
+  return true;
+};
+
 const validate = (type, payload) => {
   switch (type) {
     case 'condition':
@@ -17,6 +22,9 @@ const validate = (type, payload) => {
 
     case 'nickname':
       return nicknameValidator(payload);
+
+    case 'code':
+      return codeValidator(payload);
 
     default:
       return true;

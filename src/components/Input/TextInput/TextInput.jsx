@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { InputLayout, TextInput, ErrorParagraph } from './Input.style';
+import { TextInputLayout, Input, ErrorParagraph } from './TextInput.style';
 
-function Input({ placeholder, type, error, value, onChangeHandler }) {
+function TextInput({ placeholder, type, error, value, onChangeHandler }) {
   return (
-    <InputLayout {...{ error }}>
-      <TextInput
+    <TextInputLayout {...{ error }}>
+      <Input
         type={type}
         placeholder={placeholder}
         value={value}
@@ -15,11 +15,11 @@ function Input({ placeholder, type, error, value, onChangeHandler }) {
       />
 
       <ErrorParagraph> {error} </ErrorParagraph>
-    </InputLayout>
+    </TextInputLayout>
   );
 }
 
-Input.propTypes = {
+TextInput.propTypes = {
   placeholder: PropTypes.string.isRequired,
   type: PropTypes.string,
   error: PropTypes.string,
@@ -27,10 +27,10 @@ Input.propTypes = {
   onChangeHandler: PropTypes.func.isRequired,
 };
 
-Input.defaultProps = {
+TextInput.defaultProps = {
   type: 'text',
   error: null,
   value: '',
 };
 
-export default Input;
+export default TextInput;

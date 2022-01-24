@@ -3,17 +3,23 @@ import styled from 'styled-components';
 export const UserListLayout = styled.div`
   display: flex;
   width: 100%;
-  justify-content: center;
   align-items: center;
   gap: 9px;
 `;
 
 export const NicknameParagraph = styled.p`
+  display: flex;
+  flex: 1;
+
   color: ${({ theme }) => theme.Colors.Gray};
+
+  ${({ theme }) => theme.TextStyles.Paragraph6};
 `;
 
 export const ScoreBox = styled.div`
   display: flex;
+  justify-content: center;
+  align-items: center;
   width: 16px;
   height: 16px;
   border-radius: 100%;
@@ -22,4 +28,6 @@ export const ScoreBox = styled.div`
   background: ${({ theme }) => theme.Colors.White};
 
   color: ${({ theme }) => theme.Colors.Primary};
+
+  ${({ theme }) => theme.TextStyles.Paragraph6};
 `;

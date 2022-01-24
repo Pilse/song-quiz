@@ -14,6 +14,8 @@ const Colors = {
   LightGray: '#AAAAAA',
 
   White: '#FFFFFF',
+
+  IVORY: '#FCFCFC',
 };
 
 const TextStyles = {

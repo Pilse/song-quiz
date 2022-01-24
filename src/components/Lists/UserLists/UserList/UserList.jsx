@@ -12,7 +12,7 @@ function UserList({ nickname, score }) {
 
       <NicknameParagraph>{nickname}</NicknameParagraph>
 
-      <ScoreBox>{score}</ScoreBox>
+      {score && <ScoreBox>{score}</ScoreBox>}
     </UserListLayout>
   );
 }
