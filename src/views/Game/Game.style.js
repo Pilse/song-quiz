@@ -18,6 +18,15 @@ export const QuizBox = styled.div`
   gap: 67px;
   padding: 5% 20%;
   flex: 5;
+  position: relative;
+`;
+
+export const ButtonBox = styled.div`
+  display: flex;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
 `;
 
 export const QuizInfoBox = styled.div`
@@ -33,7 +42,7 @@ export const CodeBox = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 11px;
+  gap: 5px;
 `;
 
 export const CodeParagraph = styled.p`
@@ -62,7 +71,7 @@ export const UserBox = styled.div`
   align-items: center;
   gap: 26px;
   padding: 35px 16px;
-  flex: 2;
+  flex: 3;
 
   background: ${({ theme }) => `${theme.Colors.White}E6`};
 
@@ -82,7 +91,7 @@ export const ChatBox = styled.div`
   width: 100%;
   height: 100%;
   flex-direction: column;
-  flex: 3;
+  flex: 5;
 
   background: ${({ theme }) => `${theme.Colors.White}E6`};
 `;
@@ -91,14 +100,23 @@ export const ChatLogBox = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 25px;
+  gap: 10px;
   flex: 1;
-  padding: 35px 17px;
+  padding: 35px 5px;
+  overflow-y: auto;
+
+  ::-webkit-scrollbar {
+    background: transparent;
+    width: 5px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: ${({ theme }) => theme.Colors.Primary};
+  }
 
   border-bottom: 1px solid ${({ theme }) => theme.Colors.Primary};
 `;
 
-export const ChatInputBox = styled.div`
+export const ChatInputForm = styled.form`
   display: flex;
   padding: 7px 6px;
 `;

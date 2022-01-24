@@ -5,6 +5,10 @@ export const ChatListLayout = styled.div`
   flex-direction: column;
   width: 100%;
   gap: 4px;
+
+  padding: 15px 15px;
+  border-radius: 15px;
+  background: ${({ theme }) => theme.Colors.White};
 `;
 
 export const NicknameParagraph = styled.p`

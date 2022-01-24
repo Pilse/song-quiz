@@ -26,6 +26,8 @@ export const GAME = {
   START: '클릭하여 시작',
   CODE: '초대코드',
   USERS: '참가자',
+  GAMESET: '게임종료',
+  HOME: '홈으로 돌아가기',
   TYPE: {
     NOTICE: 'notice',
     CHAT: 'chat',
