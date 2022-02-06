@@ -33,6 +33,15 @@ class User {
       this.role = newRole;
     }
   }
+
+  userInfo() {
+    return {
+      id: this.id,
+      nickname: this.nickname,
+      scroe: this.score,
+      role: this.role,
+    };
+  }
 }
 
 module.exports = User;

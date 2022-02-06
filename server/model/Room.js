@@ -1,4 +1,3 @@
-const User = require("./User");
 const songs = require("../utils/sampleSongs");
 
 class Room {
@@ -7,6 +6,10 @@ class Room {
     this.winningCondition = winningCondition;
     this.users = [];
     this.song = "";
+  }
+
+  get id() {
+    return this.id;
   }
 
   get song() {
@@ -26,7 +29,7 @@ class Room {
   }
 
   saveUser(user) {
-    this.users.push(new User(user.id, user.nickname, user.role));
+    this.users.push(user);
   }
 
   deleteUser(userId) {
@@ -35,10 +38,16 @@ class Room {
     if (user.role === "host") {
       const userIndex = this.findUserIndex(userId);
 
-      this.users[(userIndex + 1) % this.users.length].role = "host";
+      const newHost = this.users[(userIndex + 1) % this.users.length];
+
+      newHost.role = "host";
+
+      return newHost;
     }
 
     this.users = this.users.filter((user) => user.id !== userId);
+
+    return user;
   }
 
   updateScore(userId) {
@@ -48,6 +57,7 @@ class Room {
   }
 
   updateSong() {
+    // TODO 랜덤으로 노래 비디오 문자열 반환
     this.song = songs[0].video;
   }
 

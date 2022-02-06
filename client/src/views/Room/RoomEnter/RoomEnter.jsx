@@ -19,10 +19,12 @@ function RoomEnter() {
   const [step, setStep] = useState(1);
   const [error, setError] = useState('');
 
-  const onCodeSubmitHandler = (event, _code) => {
+  const onCodeSubmitHandler = async (event, _code) => {
     event.preventDefault();
 
-    if (!validate('code', _code)) {
+    const result = await validate('code', _code);
+
+    if (!result) {
       setError(() => ROOM.ERROR.CODE);
     } else {
       setError(() => null);
@@ -30,10 +32,12 @@ function RoomEnter() {
     }
   };
 
-  const onNickNameSubmitHandler = (event, _nickname) => {
+  const onNickNameSubmitHandler = async (event, _nickname) => {
     event.preventDefault();
 
-    if (!validate('nickname', _nickname)) {
+    const result = await validate('nickname', _nickname);
+
+    if (!result) {
       setError(() => ROOM.ERROR.NICKNAME);
     } else {
       setError(() => null);

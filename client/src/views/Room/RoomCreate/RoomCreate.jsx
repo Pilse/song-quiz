@@ -33,12 +33,7 @@ function RoomCreate() {
   const onNickNameSubmitHandler = (event, _nickname) => {
     event.preventDefault();
 
-    if (!validate('nickname', _nickname)) {
-      setError(() => ROOM.ERROR.NICKNAME);
-    } else {
-      setError(() => null);
-      navigate('/game');
-    }
+    navigate('/game');
   };
 
   return (

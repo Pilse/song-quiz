@@ -1,9 +1,14 @@
 const Room = require("./Room");
 const generator = require("../utils/roomIdGenerator");
 
+let instance;
 class Rooms {
   constructor() {
+    if (instance) return instance;
+
     this.rooms = [];
+
+    instance = this;
   }
 
   saveRoom(winningCondition) {
@@ -33,4 +38,4 @@ class Rooms {
   }
 }
 
-module.expors = Rooms;
+module.exports = new Rooms();

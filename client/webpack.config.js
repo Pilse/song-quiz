@@ -1,37 +1,43 @@
-const webpack = require("webpack");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const path = require("path");
+const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const path = require('path');
 
 const port = 3000;
 
 module.exports = {
-  mode: "development",
-  entry: "./src/index.jsx",
+  mode: 'development',
+  entry: './src/index.jsx',
   output: {
     path: `${__dirname}/dist`,
-    filename: "bundle.[hash].js",
-    publicPath: "/",
+    filename: 'bundle.[hash].js',
+    publicPath: '/',
   },
   resolve: {
-    modules: [path.resolve(__dirname, "src"), "node_modules"],
-    extensions: [".js", ".jsx", ".json"],
+    modules: [path.resolve(__dirname, 'src'), 'node_modules'],
+    extensions: ['.js', '.jsx', '.json'],
   },
   module: {
     rules: [
       {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
-        use: ["babel-loader"],
+        use: ['babel-loader'],
       },
     ],
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: "public/index.html",
+      template: 'public/index.html',
     }),
   ],
   devServer: {
-    host: "localhost",
+    host: 'localhost',
+    proxy: {
+      '/room': {
+        target: 'http://localhost:8000',
+        changeOrigin: true,
+      },
+    },
     port,
     open: true,
     historyApiFallback: true,

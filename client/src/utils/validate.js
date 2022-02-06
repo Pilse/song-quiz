@@ -1,3 +1,5 @@
+import Room from '../api/room';
+
 const conditionValidator = payload => {
   if (payload < 3) return false;
   if (payload > 10) return false;
@@ -5,14 +7,16 @@ const conditionValidator = payload => {
   return true;
 };
 
-const nicknameValidator = () => {
-  // TODO nickname 중복검사
-  return true;
+const nicknameValidator = async payload => {
+  const { data: isDuplicated } = await Room.checkNickname(payload);
+
+  return isDuplicated;
 };
 
-const codeValidator = () => {
-  // TODO code 유효검사
-  return true;
+const codeValidator = async payload => {
+  const { data: roomId } = await Room.checkCode(payload);
+
+  return roomId;
 };
 
 const validate = (type, payload) => {
