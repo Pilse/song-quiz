@@ -54,7 +54,7 @@ function RoomEnter({ user, setUser }) {
       setUser(prev => ({
         ...prev,
         nickname: _nickname,
-        role: USER_ROLE.USER,
+        role: USER_ROLE.PLAYER,
       }));
 
       setError(() => null);

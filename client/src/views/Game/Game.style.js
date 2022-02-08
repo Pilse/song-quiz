@@ -11,12 +11,11 @@ export const GameLayout = styled.div`
 export const QuizBox = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
   width: 100%;
   height: 100%;
-  gap: 67px;
-  padding: 5% 20%;
+  padding: 16px 32px;
   flex: 5;
   position: relative;
 `;
@@ -66,12 +65,11 @@ export const QuizParagraph = styled.p`
 export const UserBox = styled.div`
   display: flex;
   flex-direction: column;
-  width: 100%;
+  width: 200px;
   height: 100%;
   align-items: center;
   gap: 26px;
   padding: 35px 16px;
-  flex: 3;
 
   background: ${({ theme }) => `${theme.Colors.White}E6`};
 
@@ -88,10 +86,9 @@ export const UsersParagraph = styled.p`
 
 export const ChatBox = styled.div`
   display: flex;
-  width: 100%;
+  width: 400px;
   height: 100%;
   flex-direction: column;
-  flex: 5;
 
   background: ${({ theme }) => `${theme.Colors.White}E6`};
 `;

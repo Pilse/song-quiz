@@ -30,7 +30,7 @@ export const VALIDATE = {
 
 export const USER_ROLE = {
   HOST: 'host',
-  USER: 'user',
+  PLAYER: 'plyaer',
 };
 
 export const GAME = {

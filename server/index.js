@@ -132,14 +132,14 @@ io.on("connection", (socket) => {
     }
   });
 
-  socket.on("disconnect", ({ roomId, userId }) => {
-    if (!roomId || !userId) return;
+  socket.on("disconnect", () => {
+    const userId = socket.id;
 
-    const room = Rooms.findRoom(roomId);
+    const room = Rooms.findRoomByUserId(userId);
 
     const { newHost, leaved } = room.deleteUser(userId);
 
-    socket.leave(roomId);
+    socket.leave(room.id);
 
     if (newHost) {
       io.to(newHost.id).emit("user", {
@@ -160,8 +160,6 @@ io.on("connection", (socket) => {
     );
 
     Rooms.deleteEmptyRoom();
-
-    socket.disconnect();
   });
 });
 

@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
 
@@ -97,7 +97,9 @@ function Game({ user, setUser }) {
 
       <ChatBox>
         <ChatLogBox ref={chatRef}>
-          {chats && <ChatLists chatLists={chats} />}
+          {chats && (
+            <ChatLists chatLists={chats} userNickname={user.nickname} />
+          )}
         </ChatLogBox>
 
         <ChatInputForm onKeyPress={onKeyPressHandler}>

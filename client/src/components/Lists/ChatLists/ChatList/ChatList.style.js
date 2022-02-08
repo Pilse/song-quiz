@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 export const ChatListLayout = styled.div`
   display: flex;
@@ -12,7 +12,14 @@ export const ChatListLayout = styled.div`
 `;
 
 export const NicknameParagraph = styled.p`
-  color: ${({ theme }) => theme.Colors.LightGray};
+  ${({ isMyMessage, theme }) =>
+    isMyMessage
+      ? css`
+          color: ${theme.Colors.Primary};
+        `
+      : css`
+          color: ${theme.Colors.LightGray};
+        `};
 
   ${({ theme }) => theme.TextStyles.Paragraph5};
 `;

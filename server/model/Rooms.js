@@ -25,6 +25,12 @@ class Rooms {
     return this.rooms.find((room) => room.id === roomId);
   }
 
+  findRoomByUserId(userId) {
+    return this.rooms.filter(
+      (room) => room.users.filter((user) => user.id === userId).length
+    )[0];
+  }
+
   deleteRoom(roomId) {
     this.rooms = this.rooms.filter((room) => room.id === roomId);
   }

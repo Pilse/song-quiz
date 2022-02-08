@@ -25,7 +25,10 @@ function useSocketIO(user, setUser, setUserLists) {
     let roomId;
     let userId;
 
-    if (!user.nickname) navigate('/');
+    if (!user.nickname) {
+      navigate('/');
+      return false;
+    }
 
     if (user.role === USER_ROLE.HOST) {
       socket.emit('create', {
@@ -77,13 +80,17 @@ function useSocketIO(user, setUser, setUserLists) {
       if (!event.shiftKey) {
         event.preventDefault();
 
-        socket.emit('message', {
-          roomId: user.roomId,
-          userId: user.id,
-          message,
-        });
+        if (message) {
+          socket.emit('message', {
+            roomId: user.roomId,
+            userId: user.id,
+            message,
+          });
+        }
 
         setMessage();
+      } else if (!message) {
+        event.preventDefault();
       }
     }
   };

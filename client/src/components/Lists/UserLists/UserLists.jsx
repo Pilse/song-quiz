@@ -9,7 +9,11 @@ function UsetLists({ userLists }) {
   return (
     <UserListsLayout>
       {userLists.map(user => (
-        <UserList nickname={user.nickname} score={user.score} />
+        <UserList
+          key={user.nickname}
+          nickname={user.nickname}
+          score={user.score}
+        />
       ))}
     </UserListsLayout>
   );
