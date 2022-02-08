@@ -1,6 +1,9 @@
 const request = async (method, url, body = null) => {
   const config = {
     method,
+    headers: {
+      'Content-Type': 'application/json',
+    },
     body: body ? JSON.stringify(body) : body,
   };
 

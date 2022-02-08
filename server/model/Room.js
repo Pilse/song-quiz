@@ -8,14 +8,6 @@ class Room {
     this.song = "";
   }
 
-  get id() {
-    return this.id;
-  }
-
-  get song() {
-    return this.song;
-  }
-
   findUser(userId) {
     return this.users.find((user) => user.id === userId);
   }
@@ -42,12 +34,14 @@ class Room {
 
       newHost.role = "host";
 
-      return newHost;
+      this.users = this.users.filter((user) => user.id !== userId);
+
+      return { newHost, leaved: user };
     }
 
     this.users = this.users.filter((user) => user.id !== userId);
 
-    return user;
+    return { newHost: null, leaved: user };
   }
 
   updateScore(userId) {

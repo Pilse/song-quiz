@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
 
-import { ROOM } from '../../../utils/costants';
+import { ROOM, USER_ROLE, VALIDATE } from '../../../utils/costants';
 import validate from '../../../utils/validate';
 
 import Box from '../../../components/Box/Box';
@@ -11,7 +12,7 @@ import NoticeLabel from '../../../components/Label/NoticeLabel/NoticeLabel';
 
 import { RoomEnterLayout, InputForm } from './RoomEnter.style';
 
-function RoomEnter() {
+function RoomEnter({ user, setUser }) {
   const navigate = useNavigate();
 
   const [code, setCode] = useState();
@@ -22,11 +23,17 @@ function RoomEnter() {
   const onCodeSubmitHandler = async (event, _code) => {
     event.preventDefault();
 
-    const result = await validate('code', _code);
+    const roomId = await validate(VALIDATE.CODE, _code);
 
-    if (!result) {
+    if (!roomId) {
       setError(() => ROOM.ERROR.CODE);
+      setCode();
     } else {
+      setUser(prev => ({
+        ...prev,
+        roomId,
+      }));
+
       setError(() => null);
       setStep(() => 2);
     }
@@ -35,11 +42,21 @@ function RoomEnter() {
   const onNickNameSubmitHandler = async (event, _nickname) => {
     event.preventDefault();
 
-    const result = await validate('nickname', _nickname);
+    const isDuplicated = await validate(VALIDATE.NICKNAME, {
+      roomId: user.roomId,
+      nickname: _nickname,
+    });
 
-    if (!result) {
+    if (!isDuplicated) {
       setError(() => ROOM.ERROR.NICKNAME);
+      setNickname();
     } else {
+      setUser(prev => ({
+        ...prev,
+        nickname: _nickname,
+        role: USER_ROLE.USER,
+      }));
+
       setError(() => null);
       navigate('/game');
     }
@@ -83,5 +100,12 @@ function RoomEnter() {
     </RoomEnterLayout>
   );
 }
+
+RoomEnter.propTypes = {
+  user: PropTypes.objectOf(
+    PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  ).isRequired,
+  setUser: PropTypes.func.isRequired,
+};
 
 export default RoomEnter;

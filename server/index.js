@@ -13,25 +13,23 @@ const server = http.createServer(app);
 
 app.use(cors());
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 
-app.use("/room", roomRouter);
+app.use("/rooms", roomRouter);
 
 const io = socket(server);
 
 io.on("connection", (socket) => {
-  console.log("connect", socket.id);
-
   socket.on("join", ({ roomId, nickname }) => {
     const room = Rooms.findRoom(roomId);
 
     const user = new User(socket.id, nickname, "user");
 
-    room.saveuser(user);
+    room.saveUser(user);
 
     socket.join(roomId);
 
-    socket.emit("user", { ...user.userInfo(), roomdId: room.id });
+    socket.emit("user", { ...user.userInfo(), roomId: room.id });
 
     const noticeMessage = {
       message: `${nickname}님이 입장하셨습니다`,
@@ -54,7 +52,7 @@ io.on("connection", (socket) => {
 
     socket.join(room.id);
 
-    socket.emit("user", { ...user.userInfo(), roomdId: room.id });
+    socket.emit("user", { ...user.userInfo(), roomId: room.id });
 
     const noticeMessage = {
       message: `${user.nickname}님이 입장하셨습니다`,
@@ -70,14 +68,27 @@ io.on("connection", (socket) => {
 
   socket.on("leave", ({ roomId, userId }) => {
     const room = Rooms.findRoom(roomId);
-
-    const user = room.deleteUser(userId);
+    const { newHost, leaved } = room.deleteUser(userId);
 
     socket.leave(roomId);
 
-    if (user.id !== userId) {
-      io.to(user.id).emit("user", user);
+    if (newHost) {
+      io.to(newHost.id).emit("user", {
+        ...newHost.userInfo(),
+        roomId: room.id,
+      });
     }
+
+    const noticeMessage = {
+      message: `${leaved.nickname}님이 퇴장했습니다.`,
+      type: "notice",
+    };
+
+    io.to(room.id).emit("message", noticeMessage);
+    io.to(room.id).emit(
+      "users",
+      room.users.map((user) => user.userInfo())
+    );
 
     Rooms.deleteEmptyRoom();
   });
@@ -99,7 +110,7 @@ io.on("connection", (socket) => {
 
     const user = room.findUser(userId);
 
-    const userMessage = { message, type: "message" };
+    const userMessage = { nickname: user.nickname, message, type: "message" };
 
     io.to(roomId).emit("message", userMessage);
 
@@ -122,17 +133,35 @@ io.on("connection", (socket) => {
   });
 
   socket.on("disconnect", ({ roomId, userId }) => {
+    if (!roomId || !userId) return;
+
     const room = Rooms.findRoom(roomId);
 
-    const user = room.deleteUser(userId);
+    const { newHost, leaved } = room.deleteUser(userId);
 
     socket.leave(roomId);
 
-    if (user.id !== userId) {
-      io.to(user.id).emit("user", user);
+    if (newHost) {
+      io.to(newHost.id).emit("user", {
+        ...newHost.userInfo(),
+        roomId: room.id,
+      });
     }
 
+    const noticeMessage = {
+      message: `${leaved.nickname}님이 퇴장했습니다.`,
+      type: "notice",
+    };
+
+    io.to(room.id).emit("message", noticeMessage);
+    io.to(room.id).emit(
+      "users",
+      room.users.map((user) => user.userInfo())
+    );
+
     Rooms.deleteEmptyRoom();
+
+    socket.disconnect();
   });
 });
 

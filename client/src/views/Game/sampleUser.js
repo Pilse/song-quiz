@@ -9,7 +9,7 @@ const sampleUsers = [
   },
   {
     nickname: '아이폰 13',
-    score: 3,
+    score: 0,
   },
 ];
 

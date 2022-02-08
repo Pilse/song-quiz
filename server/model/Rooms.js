@@ -16,7 +16,7 @@ class Rooms {
 
     const room = new Room(roomId, winningCondition);
 
-    this.room.push(room);
+    this.rooms.push(room);
 
     return room;
   }

@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
 
-import { ROOM } from '../../../utils/costants';
+import { ROOM, USER_ROLE, VALIDATE } from '../../../utils/costants';
 import validate from '../../../utils/validate';
 
 import Box from '../../../components/Box/Box';
@@ -11,7 +12,7 @@ import NoticeLabel from '../../../components/Label/NoticeLabel/NoticeLabel';
 
 import { RoomCreateLayout, InputForm } from './RoomCreate.style';
 
-function RoomCreate() {
+function RoomCreate({ setUser }) {
   const navigate = useNavigate();
 
   const [condition, setCondition] = useState();
@@ -22,9 +23,15 @@ function RoomCreate() {
   const onConditionSubmitHandler = (event, _condition) => {
     event.preventDefault();
 
-    if (!validate('condition', _condition)) {
+    if (!validate(VALIDATE.CONDITION, _condition)) {
       setError(() => ROOM.ERROR.CONDITION);
+      setCondition();
     } else {
+      setUser(prev => ({
+        ...prev,
+        winningCondition: _condition,
+      }));
+
       setError(() => null);
       setStep(() => 2);
     }
@@ -32,6 +39,8 @@ function RoomCreate() {
 
   const onNickNameSubmitHandler = (event, _nickname) => {
     event.preventDefault();
+
+    setUser(prev => ({ ...prev, nickname: _nickname, role: USER_ROLE.HOST }));
 
     navigate('/game');
   };
@@ -77,5 +86,9 @@ function RoomCreate() {
     </RoomCreateLayout>
   );
 }
+
+RoomCreate.propTypes = {
+  setUser: PropTypes.func.isRequired,
+};
 
 export default RoomCreate;

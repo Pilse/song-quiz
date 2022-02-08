@@ -6,39 +6,11 @@ class User {
     this.role = role;
   }
 
-  get id() {
-    return this.id;
-  }
-
-  get nickname() {
-    return this.nickname;
-  }
-
-  get score() {
-    return this.score;
-  }
-
-  get role() {
-    return this.role;
-  }
-
-  set score(newScore) {
-    if (newScore) {
-      this.score = newScore;
-    }
-  }
-
-  set role(newRole) {
-    if (newRole) {
-      this.role = newRole;
-    }
-  }
-
   userInfo() {
     return {
       id: this.id,
       nickname: this.nickname,
-      scroe: this.score,
+      score: this.score,
       role: this.role,
     };
   }

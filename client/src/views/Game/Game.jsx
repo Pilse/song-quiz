@@ -1,7 +1,10 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
 
 import { GAME } from '../../utils/costants';
+import useScrollBottom from '../../hooks/useScrollBottom';
+import useSocketIO from '../../hooks/useSocketIO';
 
 import Icon from '../../components/Icon/Icon';
 import TextareaInput from '../../components/Input/TextareaInput/TextareaInput';
@@ -23,40 +26,21 @@ import {
   ChatInputForm,
 } from './Game.style';
 
-import sampleUsers from './sampleUser';
-import sampleChat from './sampleChat';
-
-function Game() {
+function Game({ user, setUser }) {
   const navigate = useNavigate();
 
   const chatRef = useRef();
 
-  const [input, setInput] = useState();
   const [quizMessage, setQuizMessage] = useState(GAME.START);
-  const [chatLists, setChatLists] = useState(sampleChat);
-  const [userListsActive, setUserListsActive] = useState(false);
+  const [userLists, setUserLists] = useState({ userList: [], show: false });
 
-  useEffect(() => {
-    chatRef.current.scrollTop =
-      chatRef.current.scrollHeight - chatRef.current.clientHeight;
-  }, [chatLists]);
+  const { message, setMessage, onKeyPressHandler, chats } = useSocketIO(
+    user,
+    setUser,
+    setUserLists,
+  );
 
-  const onKeyPressHandler = event => {
-    if (event.key === 'Enter') {
-      event.preventDefault();
-
-      setChatLists(prev => [
-        ...prev,
-        {
-          type: 'chat',
-          nickname: 'sample',
-          message: input,
-        },
-      ]);
-
-      setInput();
-    }
-  };
+  useScrollBottom(chatRef, chats);
 
   return (
     <GameLayout>
@@ -68,17 +52,21 @@ function Game() {
             onClickHandler={() => navigate(-1)}
           />
 
-          {userListsActive ? (
+          {userLists.show ? (
             <Icon
               name="user_circle_active"
               clickable
-              onClickHandler={() => setUserListsActive(prev => !prev)}
+              onClickHandler={() =>
+                setUserLists(prev => ({ ...prev, show: !prev.show }))
+              }
             />
           ) : (
             <Icon
               name="user_circle_inactive"
               clickable
-              onClickHandler={() => setUserListsActive(prev => !prev)}
+              onClickHandler={() =>
+                setUserLists(prev => ({ ...prev, show: !prev.show }))
+              }
             />
           )}
         </ButtonBox>
@@ -88,7 +76,7 @@ function Game() {
           <CodeBox>
             <CodeParagraph>{GAME.CODE}</CodeParagraph>
 
-            <CodeParagraph>dsfu9nha30j</CodeParagraph>
+            <CodeParagraph>{user.roomId}</CodeParagraph>
           </CodeBox>
 
           <Icon name="play" clickable />
@@ -97,29 +85,38 @@ function Game() {
         </QuizInfoBox>
       </QuizBox>
 
-      {userListsActive && (
+      {userLists.show && (
         <UserBox>
-          <UsersParagraph>{GAME.USERS}(3)</UsersParagraph>
+          <UsersParagraph>
+            {GAME.USERS} ({userLists.userList.length})
+          </UsersParagraph>
 
-          <UserLists userLists={sampleUsers} />
+          <UserLists userLists={userLists.userList} />
         </UserBox>
       )}
 
       <ChatBox>
         <ChatLogBox ref={chatRef}>
-          <ChatLists chatLists={chatLists} />
+          {chats && <ChatLists chatLists={chats} />}
         </ChatLogBox>
 
         <ChatInputForm onKeyPress={onKeyPressHandler}>
           <TextareaInput
             placeholder="답을 입력해주세요"
-            value={input}
-            onChangeHandler={e => setInput(() => e.target.value)}
+            value={message}
+            onChangeHandler={e => setMessage(() => e.target.value)}
           />
         </ChatInputForm>
       </ChatBox>
     </GameLayout>
   );
 }
+
+Game.propTypes = {
+  user: PropTypes.objectOf(
+    PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  ).isRequired,
+  setUser: PropTypes.func.isRequired,
+};
 
 export default Game;

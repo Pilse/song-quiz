@@ -33,7 +33,7 @@ module.exports = {
   devServer: {
     host: 'localhost',
     proxy: {
-      '/room': {
+      '/rooms': {
         target: 'http://localhost:8000',
         changeOrigin: true,
       },

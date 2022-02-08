@@ -2,7 +2,7 @@ const router = require("express").Router();
 const Rooms = require("../model/Rooms");
 
 router.post("/code", (req, res) => {
-  const code = req.body;
+  const { code } = req.body;
 
   const room = Rooms.findRoom(code);
 
@@ -15,7 +15,8 @@ router.post("/nickname", (req, res) => {
 
   const room = Rooms.findRoom(roomId);
 
-  res.send(room.isDupliactedNickname(nickname));
+  if (room.isDupliactedNickname(nickname)) res.send(JSON.stringify(false));
+  else res.send(JSON.stringify(true));
 });
 
 module.exports = router;

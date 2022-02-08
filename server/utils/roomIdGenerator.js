@@ -4,13 +4,13 @@ function generator() {
   for (let i = 0; i < 2; i++) {
     password += getRandomUpper();
   }
-  for (let i = 0; i < 2; i++) {
+  for (let i = 0; i < 3; i++) {
     password += getRandomLower();
   }
-  for (let i = 0; i < 2; i++) {
+  for (let i = 0; i < 3; i++) {
     password += getRandomNumber();
   }
-  for (let i = 0; i < 2; i++) {
+  for (let i = 0; i < 1; i++) {
     password += getRandomSymbol();
   }
 
@@ -18,6 +18,8 @@ function generator() {
 }
 
 function shuffle(password) {
+  password = password.split("");
+
   for (let i = password.length - 1; i > 0; i--) {
     let j = Math.floor(Math.random() * (i + 1));
 
@@ -25,7 +27,7 @@ function shuffle(password) {
     password[i] = password[j];
     password[j] = t;
   }
-  return password;
+  return password.join("");
 }
 
 function getRandomLower() {

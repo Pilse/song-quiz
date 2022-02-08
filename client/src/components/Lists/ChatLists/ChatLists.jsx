@@ -8,7 +8,7 @@ import ChatList from './ChatList/ChatList';
 
 function ChatLists({ chatLists }) {
   return chatLists.map((chat, index) => (
-    <React.Fragment key={index.toString() + chat.nickname + chat.message}>
+    <React.Fragment key={index.toString() + chat.nickname}>
       {chat.type === GAME.TYPE.NOTICE ? (
         <NoticeLabel size="sm" text={chat.message} />
       ) : (

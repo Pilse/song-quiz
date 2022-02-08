@@ -14,7 +14,7 @@ const nicknameValidator = async payload => {
 };
 
 const codeValidator = async payload => {
-  const { data: roomId } = await Room.checkCode(payload);
+  const { data: roomId } = await Room.checkCode({ code: payload });
 
   return roomId;
 };

@@ -22,6 +22,17 @@ export const ROOM = {
   },
 };
 
+export const VALIDATE = {
+  CONDITION: 'condition',
+  NICKNAME: 'nickname',
+  CODE: 'code',
+};
+
+export const USER_ROLE = {
+  HOST: 'host',
+  USER: 'user',
+};
+
 export const GAME = {
   START: '클릭하여 시작',
   CODE: '초대코드',
@@ -30,6 +41,6 @@ export const GAME = {
   HOME: '홈으로 돌아가기',
   TYPE: {
     NOTICE: 'notice',
-    CHAT: 'chat',
+    MESSAGE: 'message',
   },
 };
