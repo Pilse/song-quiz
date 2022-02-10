@@ -7,45 +7,41 @@ import useScrollBottom from '../../hooks/useScrollBottom';
 import useSocketIO from '../../hooks/useSocketIO';
 
 import Icon from '../../components/Icon/Icon';
+import Col from '../../components/Layout/Col/Col';
+import Row from '../../components/Layout/Row/Row';
+import Paragraph from '../../components/Paragraph/Paragraph';
 import TextareaInput from '../../components/Input/TextareaInput/TextareaInput';
 import UserLists from '../../components/Lists/UserLists/UserLists';
 import ChatLists from '../../components/Lists/ChatLists/ChatLists';
+import Popup from '../../components/Popup/Popup';
+import GameEndTemplate from '../../components/Popup/Template/GameEndTemplate/GameEndTemplate';
 
-import {
-  GameLayout,
-  QuizBox,
-  ButtonBox,
-  QuizInfoBox,
-  CodeBox,
-  CodeParagraph,
-  QuizParagraph,
-  UserBox,
-  UsersParagraph,
-  ChatBox,
-  ChatLogBox,
-  ChatInputForm,
-} from './Game.style';
+import { ChatLog, InputForm, StyledCol } from './Game.style';
 
 function Game({ user, setUser }) {
   const navigate = useNavigate();
 
   const chatRef = useRef();
 
+  const [message, setMessage] = useState();
+  const [chats, setChats] = useState([]);
   const [quizMessage, setQuizMessage] = useState(GAME.START);
   const [userLists, setUserLists] = useState({ userList: [], show: false });
 
-  const { message, setMessage, onKeyPressHandler, chats } = useSocketIO(
+  const [onKeyPressHandler] = useSocketIO(
     user,
     setUser,
+    setMessage,
+    setChats,
     setUserLists,
   );
 
   useScrollBottom(chatRef, chats);
 
   return (
-    <GameLayout>
-      <QuizBox>
-        <ButtonBox>
+    <Row width="100%" height="100%" justify="center" align="center">
+      <Col width="100%" height="100%" align="center" padding="16px 32px">
+        <Row width="100%">
           <Icon
             name="back_circle"
             clickable
@@ -69,48 +65,79 @@ function Game({ user, setUser }) {
               }
             />
           )}
-        </ButtonBox>
-        <Icon name="logo_large" />
+        </Row>
 
-        <QuizInfoBox>
-          <CodeBox>
-            <CodeParagraph>{GAME.CODE}</CodeParagraph>
+        <Col height="100%" justify="space-around">
+          <Icon name="logo_medium" />
 
-            <CodeParagraph>{user.roomId}</CodeParagraph>
-          </CodeBox>
+          <Col justify="center" align="center" gap={5}>
+            <Paragraph
+              align="center"
+              color="White"
+              textStyle="Paragraph4"
+              text={GAME.CODE}
+            />
 
-          <Icon name="play" clickable />
+            <Paragraph
+              align="center"
+              color="White"
+              textStyle="Paragraph4"
+              text={user.roomId}
+            />
+          </Col>
 
-          <QuizParagraph>{quizMessage}</QuizParagraph>
-        </QuizInfoBox>
-      </QuizBox>
+          <Col gap={32}>
+            <Icon name="play_small" clickable />
+
+            <Paragraph
+              align="center"
+              color="White"
+              textStyle="Paragraph1"
+              text={quizMessage}
+            />
+          </Col>
+        </Col>
+      </Col>
 
       {userLists.show && (
-        <UserBox>
-          <UsersParagraph>
-            {GAME.USERS} ({userLists.userList.length})
-          </UsersParagraph>
+        <StyledCol
+          width="200px"
+          height="100%"
+          align="center"
+          gap={26}
+          padding="35px 16px"
+        >
+          <Paragraph
+            align="center"
+            color="Primary"
+            textStyle="Paragraph4"
+            text={`${GAME.USERS} (${userLists.userList.length})`}
+          />
 
           <UserLists userLists={userLists.userList} />
-        </UserBox>
+        </StyledCol>
       )}
 
-      <ChatBox>
-        <ChatLogBox ref={chatRef}>
+      <StyledCol width="400px" height="100%">
+        <ChatLog ref={chatRef}>
           {chats && (
             <ChatLists chatLists={chats} userNickname={user.nickname} />
           )}
-        </ChatLogBox>
+        </ChatLog>
 
-        <ChatInputForm onKeyPress={onKeyPressHandler}>
+        <InputForm onKeyPress={e => onKeyPressHandler(e, message)}>
           <TextareaInput
             placeholder="답을 입력해주세요"
             value={message}
             onChangeHandler={e => setMessage(() => e.target.value)}
           />
-        </ChatInputForm>
-      </ChatBox>
-    </GameLayout>
+        </InputForm>
+      </StyledCol>
+
+      <Popup>
+        <GameEndTemplate winner="234" />
+      </Popup>
+    </Row>
   );
 }
 

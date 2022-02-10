@@ -3,23 +3,27 @@ import { useNavigate } from 'react-router-dom';
 
 import { HOME } from '../../utils/costants';
 
+import Col from '../../components/Layout/Col/Col';
+import Paragraph from '../../components/Paragraph/Paragraph';
 import Icon from '../../components/Icon/Icon';
-
-import { HomeLayout, HomeBox, PlayParagraph } from './Home.style';
 
 function Home() {
   const navigate = useNavigate();
 
   return (
-    <HomeLayout>
+    <Col width="100%" height="100%" justify="center" align="center" gap={66}>
       <Icon name="logo_large" />
 
-      <HomeBox>
-        <Icon name="play" clickable onClickHandler={() => navigate('/room')} />
+      <Col justify="center" align="center" gap={43}>
+        <Icon
+          name="play_medium"
+          clickable
+          onClickHandler={() => navigate('/room')}
+        />
 
-        <PlayParagraph>{HOME.TITLE}</PlayParagraph>
-      </HomeBox>
-    </HomeLayout>
+        <Paragraph color="White" textStyle="Paragraph1" text={HOME.TITLE} />
+      </Col>
+    </Col>
   );
 }
 

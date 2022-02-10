@@ -1,14 +1,5 @@
+/* eslint-disable import/prefer-default-export */
 import styled from 'styled-components';
-
-export const RoomCreateLayout = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  height: 100%;
-  align-items: center;
-  gap: 129px;
-  padding-top: 60px;
-`;
 
 export const InputForm = styled.form`
   display: flex;

@@ -1,10 +1,10 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { io } from 'socket.io-client';
 import { USER_ROLE } from '../utils/costants';
 
-function useSocketIO(user, setUser, setUserLists) {
+function useSocketIO(user, setUser, setMessage, setChats, setUserLists) {
   const socket = useMemo(
     () =>
       io('http://localhost:8000', {
@@ -17,9 +17,6 @@ function useSocketIO(user, setUser, setUserLists) {
   );
 
   const navigate = useNavigate();
-
-  const [message, setMessage] = useState();
-  const [chats, setChats] = useState([]);
 
   useEffect(() => {
     let roomId;
@@ -75,7 +72,7 @@ function useSocketIO(user, setUser, setUserLists) {
     return () => socket.emit('leave', { roomId, userId });
   }, []);
 
-  const onKeyPressHandler = event => {
+  const onKeyPressHandler = (event, message) => {
     if (event.key === 'Enter') {
       if (!event.shiftKey) {
         event.preventDefault();
@@ -94,8 +91,7 @@ function useSocketIO(user, setUser, setUserLists) {
       }
     }
   };
-
-  return { message, setMessage, onKeyPressHandler, chats };
+  return [onKeyPressHandler];
 }
 
 export default useSocketIO;

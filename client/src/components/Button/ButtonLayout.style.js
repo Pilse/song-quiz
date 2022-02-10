@@ -5,7 +5,7 @@ export const ButtonLayout = styled.div`
   border: none;
   outline: none;
   border-radius: 10px;
-  padding: 30px 22px;
+  padding: 25px 30px;
   cursor: pointer;
   transition: 0.2s ease-out;
 
@@ -17,7 +17,7 @@ export const ButtonLayout = styled.div`
 
   color: ${({ theme }) => theme.Colors.White};
 
-  ${({ theme }) => theme.TextStyles.Paragraph2};
+  ${({ theme }) => theme.TextStyles.Paragraph3};
 
   ${({ theme }) => theme.Shadow.ButtonShadow};
 `;

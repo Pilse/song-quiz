@@ -1,11 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { TextInputLayout, Input, ErrorParagraph } from './TextInput.style';
+import Col from '../../Layout/Col/Col';
+
+import { Input, ErrorParagraph } from './TextInput.style';
 
 function TextInput({ placeholder, type, error, value, onChangeHandler }) {
   return (
-    <TextInputLayout {...{ error }}>
+    <Col width="100%" gap={5}>
       <Input
         type={type}
         placeholder={placeholder}
@@ -15,7 +17,7 @@ function TextInput({ placeholder, type, error, value, onChangeHandler }) {
       />
 
       <ErrorParagraph> {error} </ErrorParagraph>
-    </TextInputLayout>
+    </Col>
   );
 }
 

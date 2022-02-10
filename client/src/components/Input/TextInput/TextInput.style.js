@@ -1,12 +1,4 @@
-/* eslint-disable import/prefer-default-export */
 import styled, { css } from 'styled-components';
-
-export const TextInputLayout = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  gap: 5px;
-`;
 
 export const Input = styled.input`
   display: flex;

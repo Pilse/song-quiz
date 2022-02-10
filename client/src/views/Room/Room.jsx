@@ -4,20 +4,32 @@ import { useNavigate } from 'react-router-dom';
 import { ROOM } from '../../utils/costants';
 
 import Icon from '../../components/Icon/Icon';
-import Box from '../../components/Box/Box';
-
-import { RoomLayout, OptionBox, RoomOptionParagraph } from './Room.style';
+import Box from '../../components/Layout/Box/Box';
+import Col from '../../components/Layout/Col/Col';
+import Row from '../../components/Layout/Row/Row';
+import Paragraph from '../../components/Paragraph/Paragraph';
 
 function Room() {
   const navigate = useNavigate();
 
   return (
-    <RoomLayout>
+    <Col
+      width="100%"
+      height="100%"
+      align="center"
+      gap={129}
+      padding="64px 0 0 0"
+    >
       <Icon name="logo_small" />
 
-      <OptionBox>
+      <Row width="100%" justify="center" align="center" gap={158}>
         <Box column gap={25} size="md">
-          <RoomOptionParagraph>{ROOM.CREATE}</RoomOptionParagraph>
+          <Paragraph
+            align="center"
+            color="Primary"
+            textStyle="Paragraph2"
+            text={ROOM.CREATE}
+          />
 
           <Icon
             name="room_create"
@@ -27,7 +39,12 @@ function Room() {
         </Box>
 
         <Box column gap={25} size="md">
-          <RoomOptionParagraph>{ROOM.ENTER}</RoomOptionParagraph>
+          <Paragraph
+            align="center"
+            color="Primary"
+            textStyle="Paragraph2"
+            text={ROOM.ENTER}
+          />
 
           <Icon
             name="room_enter"
@@ -35,8 +52,8 @@ function Room() {
             onClickHandler={() => navigate('/room/enter')}
           />
         </Box>
-      </OptionBox>
-    </RoomLayout>
+      </Row>
+    </Col>
   );
 }
 

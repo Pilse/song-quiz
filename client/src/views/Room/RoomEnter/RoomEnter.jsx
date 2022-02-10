@@ -5,12 +5,13 @@ import { useNavigate } from 'react-router-dom';
 import { ROOM, USER_ROLE, VALIDATE } from '../../../utils/costants';
 import validate from '../../../utils/validate';
 
-import Box from '../../../components/Box/Box';
+import Box from '../../../components/Layout/Box/Box';
 import Icon from '../../../components/Icon/Icon';
+import Col from '../../../components/Layout/Col/Col';
 import TextInput from '../../../components/Input/TextInput/TextInput';
 import NoticeLabel from '../../../components/Label/NoticeLabel/NoticeLabel';
 
-import { RoomEnterLayout, InputForm } from './RoomEnter.style';
+import { InputForm } from './RoomEnter.style';
 
 function RoomEnter({ user, setUser }) {
   const navigate = useNavigate();
@@ -63,7 +64,13 @@ function RoomEnter({ user, setUser }) {
   };
 
   return (
-    <RoomEnterLayout>
+    <Col
+      width="100%"
+      height="100%"
+      align="center"
+      gap={129}
+      padding="64px 0 0 0"
+    >
       <Icon name="logo_small" />
 
       {step === 1 && (
@@ -97,7 +104,7 @@ function RoomEnter({ user, setUser }) {
           </InputForm>
         </Box>
       )}
-    </RoomEnterLayout>
+    </Col>
   );
 }
 

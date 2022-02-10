@@ -1,17 +1,13 @@
 import styled, { css } from 'styled-components';
+import Col from '../../../Layout/Col/Col';
+import Paragraph from '../../../Paragraph/Paragraph';
 
-export const ChatListLayout = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  gap: 4px;
-
-  padding: 15px 15px;
+export const StyledCol = styled(Col)`
   border-radius: 15px;
   background: ${({ theme }) => theme.Colors.White};
 `;
 
-export const NicknameParagraph = styled.p`
+export const StyledParagraph = styled(Paragraph)`
   ${({ isMyMessage, theme }) =>
     isMyMessage
       ? css`
@@ -21,9 +17,5 @@ export const NicknameParagraph = styled.p`
           color: ${theme.Colors.LightGray};
         `};
 
-  ${({ theme }) => theme.TextStyles.Paragraph5};
-`;
-
-export const MessageParagraph = styled.p`
-  ${({ theme }) => theme.TextStyles.Paragraph5};
+  ${({ theme }) => theme.TextStyles.Paragraph6};
 `;

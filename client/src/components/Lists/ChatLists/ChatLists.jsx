@@ -3,14 +3,19 @@ import PropTypes from 'prop-types';
 
 import { GAME } from '../../../utils/costants';
 
-import NoticeLabel from '../../Label/NoticeLabel/NoticeLabel';
+import Paragraph from '../../Paragraph/Paragraph';
 import ChatList from './ChatList/ChatList';
 
 function ChatLists({ chatLists, userNickname }) {
   return chatLists.map((chat, index) => (
     <React.Fragment key={index.toString() + chat.nickname}>
       {chat.type === GAME.TYPE.NOTICE ? (
-        <NoticeLabel size="sm" text={chat.message} />
+        <Paragraph
+          align="center"
+          color="Primary"
+          textStyle="Paragraph4"
+          text={chat.message}
+        />
       ) : (
         <ChatList
           nickname={chat.nickname}

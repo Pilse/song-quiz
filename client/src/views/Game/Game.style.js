@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import Col from '../../components/Layout/Col/Col';
 
 export const GameLayout = styled.div`
   display: flex;
@@ -93,7 +94,7 @@ export const ChatBox = styled.div`
   background: ${({ theme }) => `${theme.Colors.White}E6`};
 `;
 
-export const ChatLogBox = styled.div`
+export const ChatLog = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -113,7 +114,14 @@ export const ChatLogBox = styled.div`
   border-bottom: 1px solid ${({ theme }) => theme.Colors.Primary};
 `;
 
-export const ChatInputForm = styled.form`
+export const InputForm = styled.form`
   display: flex;
   padding: 7px 6px;
+`;
+
+export const StyledCol = styled(Col)`
+  overflow-y: auto;
+  border-right: 1px solid ${({ theme }) => theme.Colors.Primary};
+
+  background: ${({ theme }) => `${theme.Colors.White}E6`};
 `;

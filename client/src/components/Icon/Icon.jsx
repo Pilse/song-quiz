@@ -1,18 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { IconLayout, IconBox } from './Icon.style';
+import Row from '../Layout/Row/Row';
+
+import { IconLayout } from './Icon.style';
 
 function Icon({ name, clickable, onClickHandler }) {
   return (
-    <IconLayout>
-      <IconBox
+    <Row justify="center">
+      <IconLayout
         src={`/assets/icons/${name}.svg`}
         alt={name}
         {...{ clickable }}
         onClick={onClickHandler}
       />
-    </IconLayout>
+    </Row>
   );
 }
 
