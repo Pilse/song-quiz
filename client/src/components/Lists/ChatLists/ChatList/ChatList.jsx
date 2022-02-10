@@ -2,23 +2,19 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import formatLinksInText from '../../../../utils/formatLinksInText';
-import Paragraph from '../../../Paragraph/Paragraph';
 
-import { StyledCol, StyledParagraph } from './ChatList.style';
+import { StyledCol, StyledParagraph, ChatMessage } from './ChatList.style';
 
 function ChatList({ nickname, message, isMyMessage }) {
   return (
-    <StyledCol width="100%" gap="4px" padding="15px">
+    <StyledCol width="100%" gap={4} padding="15px">
       <StyledParagraph
         {...{ isMyMessage }}
         textStyle="Paragraph6"
         text={nickname}
       />
 
-      <Paragraph
-        textStyle="Paragraph6"
-        dangerouslySetInnerHTML={formatLinksInText(message)}
-      />
+      <ChatMessage dangerouslySetInnerHTML={formatLinksInText(message)} />
     </StyledCol>
   );
 }

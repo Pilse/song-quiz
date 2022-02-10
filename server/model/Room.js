@@ -3,9 +3,11 @@ const songs = require("../utils/sampleSongs");
 class Room {
   constructor(roomId, winningCondition) {
     this.id = roomId;
-    this.winningCondition = winningCondition;
+    this.winningCondition = Number(winningCondition);
     this.users = [];
     this.song = "";
+    this.round = 0;
+    this.isFirstAnswer = true;
   }
 
   findUser(userId) {
@@ -44,15 +46,13 @@ class Room {
     return { newHost: null, leaved: user };
   }
 
-  updateScore(userId) {
-    const user = users.find((user) => user.id === userId);
-
-    user.score = user.score + 1;
+  updateScore(user) {
+    user.score += 1;
   }
 
   updateSong() {
-    // TODO 랜덤으로 노래 비디오 문자열 반환
-    this.song = songs[0].video;
+    this.song = songs[Math.floor(Math.random() * 7)];
+    this.round += 1;
   }
 
   isDupliactedNickname(nickname) {
@@ -60,11 +60,11 @@ class Room {
   }
 
   isAnswer(song) {
-    return this.song === song;
+    return this.song.song === song;
   }
 
   isGameFinished() {
-    return this.users.any((user) => user.score === this.winningCondition);
+    return this.users.some((user) => user.score === this.winningCondition);
   }
 }
 

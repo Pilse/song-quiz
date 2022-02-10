@@ -19,3 +19,7 @@ export const StyledParagraph = styled(Paragraph)`
 
   ${({ theme }) => theme.TextStyles.Paragraph6};
 `;
+
+export const ChatMessage = styled.p`
+  ${({ theme }) => theme.TextStyles.Paragraph6};
+`;

@@ -15,7 +15,7 @@ Paragraph.propTypes = {
   color: PropTypes.string,
   textStyle: PropTypes.string,
   align: PropTypes.string,
-  text: PropTypes.string.isRequired,
+  text: PropTypes.string,
   className: PropTypes.string,
 };
 
@@ -23,6 +23,7 @@ Paragraph.defaultProps = {
   color: 'Black',
   textStyle: 'Paragraph3',
   align: 'left',
+  text: '',
   className: null,
 };
 

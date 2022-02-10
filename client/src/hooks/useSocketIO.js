@@ -4,10 +4,20 @@ import { useNavigate } from 'react-router-dom';
 import { io } from 'socket.io-client';
 import { USER_ROLE } from '../utils/costants';
 
-function useSocketIO(user, setUser, setMessage, setChats, setUserLists) {
+function useSocketIO(
+  user,
+  setUser,
+  setMessage,
+  setChats,
+  setNotice,
+  setUserLists,
+  setSong,
+  setSongContinued,
+  setWinner,
+) {
   const socket = useMemo(
     () =>
-      io('http://localhost:8000', {
+      io('https://song-quiz.herokuapp.com', {
         'force new connection': true,
         reconnectionAttempts: 'Infinity',
         timeout: 10000,
@@ -23,6 +33,7 @@ function useSocketIO(user, setUser, setMessage, setChats, setUserLists) {
     let userId;
 
     if (!user.nickname) {
+      socket.disconnect();
       navigate('/');
       return false;
     }
@@ -69,29 +80,48 @@ function useSocketIO(user, setUser, setMessage, setChats, setUserLists) {
         ]),
     );
 
+    socket.on('notice', notice => setNotice(() => notice));
+
+    socket.on('play', song => setSong(() => song));
+
+    socket.on('continue', songContinued =>
+      setSongContinued(() => songContinued),
+    );
+
+    socket.on('end', winner => setWinner(winner));
+
     return () => socket.emit('leave', { roomId, userId });
   }, []);
 
-  const onKeyPressHandler = (event, message) => {
+  const onKeyPressHandler = (event, _message) => {
     if (event.key === 'Enter') {
       if (!event.shiftKey) {
         event.preventDefault();
 
-        if (message) {
+        if (_message) {
           socket.emit('message', {
             roomId: user.roomId,
             userId: user.id,
-            message,
+            message: _message,
           });
         }
 
         setMessage();
-      } else if (!message) {
+      } else if (!_message) {
         event.preventDefault();
       }
     }
   };
-  return [onKeyPressHandler];
+
+  const onSongPlayHandler = _user => {
+    socket.emit('play', { roomId: _user.roomId, userId: _user.id });
+  };
+
+  const onSongStopHandler = _user => {
+    socket.emit('stop', { roomId: _user.roomId });
+  };
+
+  return [onKeyPressHandler, onSongPlayHandler, onSongStopHandler];
 }
 
 export default useSocketIO;

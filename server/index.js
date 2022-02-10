@@ -55,11 +55,12 @@ io.on("connection", (socket) => {
     socket.emit("user", { ...user.userInfo(), roomId: room.id });
 
     const noticeMessage = {
-      message: `${user.nickname}님이 입장하셨습니다`,
+      message: `${user.nickname}님이 입장했습니다.`,
       type: "notice",
     };
 
     io.to(room.id).emit("message", noticeMessage);
+    io.to(room.id).emit("notice", "클릭하여 시작");
     io.to(room.id).emit(
       "users",
       room.users.map((user) => user.userInfo())
@@ -100,8 +101,10 @@ io.on("connection", (socket) => {
 
     if (user.role === "host") {
       room.updateSong();
+      room.isFirstAnswer = true;
 
-      io.to(roomId).emit("play", room.song);
+      io.to(roomId).emit("play", room.song.video);
+      io.to(roomId).emit("notice", `문제 ${room.round}`);
     }
   });
 
@@ -114,22 +117,39 @@ io.on("connection", (socket) => {
 
     io.to(roomId).emit("message", userMessage);
 
-    if (room.isAnswer(message)) {
+    if (room.isAnswer(message) && room.isFirstAnswer) {
+      room.isFirstAnswer = false;
+
+      room.updateScore(user);
+
       const noticeMessage = {
         message: `${user.nickname} 정답`,
         type: "notice",
       };
 
-      io.to(roomId).emit("message", noticeMessage);
+      socket.emit("user", { ...user.userInfo(), roomId: room.id });
 
-      io.to(roomId).emit("play", "");
+      io.to(roomId).emit("message", noticeMessage);
+      io.to(roomId).emit("notice", `${room.song.song} - ${room.song.artist}`);
+      io.to(roomId).emit("continue", true);
+      io.to(roomId).emit(
+        "users",
+        room.users.map((user) => user.userInfo())
+      );
 
       if (room.isGameFinished()) {
         const user = room.findWinner();
+        console.log(user.nickname);
 
         io.to(roomId).emit("end", user.nickname);
       }
     }
+  });
+
+  socket.on("stop", ({ roomId }) => {
+    io.to(roomId).emit("continue", false);
+    io.to(roomId).emit("play", "");
+    io.to(roomId).emit("notice", "준비");
   });
 
   socket.on("disconnect", () => {
@@ -137,29 +157,31 @@ io.on("connection", (socket) => {
 
     const room = Rooms.findRoomByUserId(userId);
 
-    const { newHost, leaved } = room.deleteUser(userId);
+    if (room) {
+      const { newHost, leaved } = room.deleteUser(userId);
 
-    socket.leave(room.id);
+      socket.leave(room.id);
 
-    if (newHost) {
-      io.to(newHost.id).emit("user", {
-        ...newHost.userInfo(),
-        roomId: room.id,
-      });
+      if (newHost) {
+        io.to(newHost.id).emit("user", {
+          ...newHost.userInfo(),
+          roomId: room.id,
+        });
+      }
+
+      const noticeMessage = {
+        message: `${leaved.nickname}님이 퇴장했습니다.`,
+        type: "notice",
+      };
+
+      io.to(room.id).emit("message", noticeMessage);
+      io.to(room.id).emit(
+        "users",
+        room.users.map((user) => user.userInfo())
+      );
+
+      Rooms.deleteEmptyRoom();
     }
-
-    const noticeMessage = {
-      message: `${leaved.nickname}님이 퇴장했습니다.`,
-      type: "notice",
-    };
-
-    io.to(room.id).emit("message", noticeMessage);
-    io.to(room.id).emit(
-      "users",
-      room.users.map((user) => user.userInfo())
-    );
-
-    Rooms.deleteEmptyRoom();
   });
 });
 

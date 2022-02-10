@@ -1,8 +1,9 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import ReactPlayer from 'react-player';
 import { useNavigate } from 'react-router-dom';
 
-import { GAME } from '../../utils/costants';
+import { GAME, USER_ROLE } from '../../utils/costants';
 import useScrollBottom from '../../hooks/useScrollBottom';
 import useSocketIO from '../../hooks/useSocketIO';
 
@@ -25,21 +26,46 @@ function Game({ user, setUser }) {
 
   const [message, setMessage] = useState();
   const [chats, setChats] = useState([]);
-  const [quizMessage, setQuizMessage] = useState(GAME.START);
+  const [notice, setNotice] = useState();
   const [userLists, setUserLists] = useState({ userList: [], show: false });
+  const [song, setSong] = useState();
+  const [songContinued, setSongContinued] = useState(false);
+  const [winner, setWinner] = useState();
 
-  const [onKeyPressHandler] = useSocketIO(
+  const [onKeyPressHandler, onSongPlayHandler, onSongStopHandler] = useSocketIO(
     user,
     setUser,
     setMessage,
     setChats,
+    setNotice,
     setUserLists,
+    setSong,
+    setSongContinued,
+    setWinner,
   );
 
   useScrollBottom(chatRef, chats);
 
+  useEffect(() => {
+    return () =>
+      setUser({
+        id: null,
+        nickname: null,
+        roomId: null,
+        score: null,
+        winningCondition: null,
+        role: null,
+      });
+  }, []);
+
   return (
     <Row width="100%" height="100%" justify="center" align="center">
+      {winner && (
+        <Popup>
+          <GameEndTemplate winner={winner} />
+        </Popup>
+      )}
+
       <Col width="100%" height="100%" align="center" padding="16px 32px">
         <Row width="100%">
           <Icon
@@ -87,15 +113,36 @@ function Game({ user, setUser }) {
           </Col>
 
           <Col gap={32}>
-            <Icon name="play_small" clickable />
+            {user.role === USER_ROLE.HOST && !song && (
+              <Icon
+                name="play_small"
+                clickable
+                onClickHandler={() => onSongPlayHandler(user)}
+              />
+            )}
+
+            {user.role === USER_ROLE.HOST && songContinued && (
+              <Icon
+                name="pause_small"
+                clickable
+                onClickHandler={() => onSongStopHandler(user)}
+              />
+            )}
 
             <Paragraph
               align="center"
               color="White"
               textStyle="Paragraph1"
-              text={quizMessage}
+              text={notice}
             />
           </Col>
+
+          <ReactPlayer
+            style={{ display: 'none' }}
+            autoPlay
+            url={`https://www.youtube.com/watch?v=${song}`}
+            playing={!!song}
+          />
         </Col>
       </Col>
 
@@ -133,10 +180,6 @@ function Game({ user, setUser }) {
           />
         </InputForm>
       </StyledCol>
-
-      <Popup>
-        <GameEndTemplate winner="234" />
-      </Popup>
     </Row>
   );
 }
