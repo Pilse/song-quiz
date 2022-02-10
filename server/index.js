@@ -32,7 +32,7 @@ io.on("connection", (socket) => {
     socket.emit("user", { ...user.userInfo(), roomId: room.id });
 
     const noticeMessage = {
-      message: `${nickname}님이 입장하셨습니다`,
+      message: `${nickname}님이 입장했습니다`,
       type: "notice",
     };
 
@@ -55,7 +55,7 @@ io.on("connection", (socket) => {
     socket.emit("user", { ...user.userInfo(), roomId: room.id });
 
     const noticeMessage = {
-      message: `${user.nickname}님이 입장했습니다.`,
+      message: `${user.nickname}님이 입장했습니다`,
       type: "notice",
     };
 
@@ -81,7 +81,7 @@ io.on("connection", (socket) => {
     }
 
     const noticeMessage = {
-      message: `${leaved.nickname}님이 퇴장했습니다.`,
+      message: `${leaved.nickname}님이 퇴장했습니다`,
       type: "notice",
     };
 
@@ -91,18 +91,49 @@ io.on("connection", (socket) => {
       room.users.map((user) => user.userInfo())
     );
 
+    room.skipVotes = Math.max(room.users.length, room.skipVotes);
+
+    io.to(room.id).emit("skip", {
+      total: room.users.length,
+      agree: room.skipVotes,
+    });
+
+    if (room.skipVotes === room.users.length) {
+      room.isAllowed = false;
+
+      io.to(room.id).emit("notice", `${room.song.song} - ${room.song.artist}`);
+      io.to(room.id).emit("continue", true);
+
+      const noticeMessage = {
+        message: "노래를 스킵했습니다",
+        type: "notice",
+      };
+      io.to(room.id).emit("message", noticeMessage);
+    }
+
     Rooms.deleteEmptyRoom();
   });
 
   socket.on("play", ({ roomId, userId }) => {
     const room = Rooms.findRoom(roomId);
 
+    if (!room.isStarted) {
+      room.isStarted = true;
+
+      io.to(room.id).emit("start", true);
+    }
+
     const user = room.findUser(userId);
 
     if (user.role === "host") {
       room.updateSong();
-      room.isFirstAnswer = true;
+      room.isAllowed = true;
+      room.skipVotes = 0;
 
+      io.to(roomId).emit("skip", {
+        total: room.users.length,
+        agree: room.skipVotes,
+      });
       io.to(roomId).emit("play", room.song.video);
       io.to(roomId).emit("notice", `문제 ${room.round}`);
     }
@@ -117,8 +148,8 @@ io.on("connection", (socket) => {
 
     io.to(roomId).emit("message", userMessage);
 
-    if (room.isAnswer(message) && room.isFirstAnswer) {
-      room.isFirstAnswer = false;
+    if (room.song.song && room.isAnswer(message) && room.isAllowed) {
+      room.isAllowed = false;
 
       room.updateScore(user);
 
@@ -152,6 +183,30 @@ io.on("connection", (socket) => {
     io.to(roomId).emit("notice", "준비");
   });
 
+  socket.on("skip", ({ roomId, vote }) => {
+    const room = Rooms.findRoom(roomId);
+
+    room.skipVotes += vote;
+
+    io.to(roomId).emit("skip", {
+      total: room.users.length,
+      agree: room.skipVotes,
+    });
+
+    if (room.skipVotes === room.users.length) {
+      room.isAllowed = false;
+
+      io.to(roomId).emit("notice", `${room.song.song} - ${room.song.artist}`);
+      io.to(roomId).emit("continue", true);
+
+      const noticeMessage = {
+        message: "노래를 스킵했습니다",
+        type: "notice",
+      };
+      io.to(room.id).emit("message", noticeMessage);
+    }
+  });
+
   socket.on("disconnect", () => {
     const userId = socket.id;
 
@@ -170,7 +225,7 @@ io.on("connection", (socket) => {
       }
 
       const noticeMessage = {
-        message: `${leaved.nickname}님이 퇴장했습니다.`,
+        message: `${leaved.nickname}님이 퇴장했습니다`,
         type: "notice",
       };
 
@@ -179,6 +234,29 @@ io.on("connection", (socket) => {
         "users",
         room.users.map((user) => user.userInfo())
       );
+
+      room.skipVotes = Math.max(room.users.length, room.skipVotes);
+
+      io.to(room.id).emit("skip", {
+        total: room.users.length,
+        agree: room.skipVotes,
+      });
+
+      if (room.skipVotes === room.users.length) {
+        room.isAllowed = false;
+
+        io.to(room.id).emit(
+          "notice",
+          `${room.song.song} - ${room.song.artist}`
+        );
+        io.to(room.id).emit("continue", true);
+
+        const noticeMessage = {
+          message: "노래를 스킵했습니다",
+          type: "notice",
+        };
+        io.to(room.id).emit("message", noticeMessage);
+      }
 
       Rooms.deleteEmptyRoom();
     }

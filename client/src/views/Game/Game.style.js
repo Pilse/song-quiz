@@ -98,30 +98,24 @@ export const ChatLog = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
+  gap: 20px;
   flex: 1;
   padding: 35px 5px;
   overflow-y: auto;
 
-  ::-webkit-scrollbar {
-    background: transparent;
-    width: 5px;
-  }
-  ::-webkit-scrollbar-thumb {
-    background: ${({ theme }) => theme.Colors.Primary};
-  }
-
-  border-bottom: 1px solid ${({ theme }) => theme.Colors.Primary};
+  ${({ theme }) => theme.Scroll.Default};
 `;
 
 export const InputForm = styled.form`
   display: flex;
-  padding: 7px 6px;
+  z-index: 2;
+
+  ${({ theme }) => theme.Shadow.TopShadow};
 `;
 
 export const StyledCol = styled(Col)`
   overflow-y: auto;
   border-right: 1px solid ${({ theme }) => theme.Colors.Primary};
 
-  background: ${({ theme }) => `${theme.Colors.White}E6`};
+  background: ${({ theme }) => theme.Colors.White};
 `;

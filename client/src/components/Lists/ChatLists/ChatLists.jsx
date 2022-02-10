@@ -13,7 +13,7 @@ function ChatLists({ chatLists, userNickname }) {
         <Paragraph
           align="center"
           color="Primary"
-          textStyle="Paragraph4"
+          textStyle="Paragraph3"
           text={chat.message}
         />
       ) : (

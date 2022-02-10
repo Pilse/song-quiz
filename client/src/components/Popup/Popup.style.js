@@ -8,4 +8,5 @@ export const AbsoluteCol = styled(Col)`
   left: 0;
   background: transparent;
   backdrop-filter: blur(5px);
+  z-index: 10;
 `;

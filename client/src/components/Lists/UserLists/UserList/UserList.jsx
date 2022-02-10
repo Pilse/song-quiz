@@ -3,17 +3,17 @@ import PropTypes from 'prop-types';
 
 import Icon from '../../../Icon/Icon';
 
-import { UserListLayout, NicknameParagraph, ScoreBox } from './UserList.style';
+import { StyledRow, StyledParagraph, ScoreBox } from './UserList.style';
 
 function UserList({ nickname, score }) {
   return (
-    <UserListLayout>
+    <StyledRow width="100%" align="center" gap={15} padding="15px 5px">
       <Icon name="user" />
 
-      <NicknameParagraph>{nickname}</NicknameParagraph>
+      <StyledParagraph color="Black" textStyle="Paragraph3" text={nickname} />
 
       <ScoreBox>{score}</ScoreBox>
-    </UserListLayout>
+    </StyledRow>
   );
 }
 

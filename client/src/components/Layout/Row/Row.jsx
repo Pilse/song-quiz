@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { RowLayout } from './Row.style';
 
 function Row({
+  flex,
   width,
   height,
   justify,
@@ -15,7 +16,7 @@ function Row({
 }) {
   return (
     <RowLayout
-      {...{ width, height, justify, align, padding, gap }}
+      {...{ flex, width, height, justify, align, padding, gap }}
       className={className}
     >
       {children}
@@ -24,6 +25,7 @@ function Row({
 }
 
 Row.propTypes = {
+  flex: PropTypes.number,
   width: PropTypes.string,
   height: PropTypes.string,
   justify: PropTypes.string,
@@ -35,6 +37,7 @@ Row.propTypes = {
 };
 
 Row.defaultProps = {
+  flex: null,
   width: 'auto',
   height: 'auto',
   justify: 'unset',

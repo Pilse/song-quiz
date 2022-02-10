@@ -7,7 +7,9 @@ class Room {
     this.users = [];
     this.song = "";
     this.round = 0;
-    this.isFirstAnswer = true;
+    this.skipVotes = 0;
+    this.isAllowed = true;
+    this.isStarted = false;
   }
 
   findUser(userId) {
@@ -51,7 +53,7 @@ class Room {
   }
 
   updateSong() {
-    this.song = songs[Math.floor(Math.random() * 7)];
+    this.song = songs[Math.floor(Math.random() * 590)];
     this.round += 1;
   }
 
@@ -60,7 +62,7 @@ class Room {
   }
 
   isAnswer(song) {
-    return this.song.song === song;
+    return this.song.song.toLowerCase() === song.toLowerCase();
   }
 
   isGameFinished() {

@@ -1,5 +1,5 @@
 export const HOME = {
-  TITLE: '노래맞추기',
+  TITLE: '노래맞히기',
 };
 
 export const ROOM = {
@@ -19,6 +19,7 @@ export const ROOM = {
     NICKNAME: '중복된 닉네임입니다',
     CONDITION: '3 ~ 10사이의 조건을 입력해주세요',
     CODE: '올바르지 않은 초대코드입니다',
+    STARTED: '이미 게임이 시작되었습니다',
   },
 };
 

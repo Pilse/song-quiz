@@ -6,15 +6,12 @@ export const Textarea = styled.textarea`
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 62px;
+  height: 100px;
   border: none;
   outline: none;
   padding: 7px;
-  border-radius: 10px;
   resize: none;
   font-family: inherit;
-
-  border: 1px solid ${({ theme }) => theme.Colors.LightGray};
 
   background-color: ${({ theme }) => theme.Colors.Ivory};
 
@@ -22,5 +19,5 @@ export const Textarea = styled.textarea`
     color: ${({ theme }) => theme.Colors.LightGray};
   }
 
-  ${({ theme }) => theme.TextStyles.Paragraph4};
+  ${({ theme }) => theme.TextStyles.Paragraph3};
 `;

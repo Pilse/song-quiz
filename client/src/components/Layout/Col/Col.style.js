@@ -1,10 +1,15 @@
 /* eslint-disable import/prefer-default-export */
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 export const ColLayout = styled.div`
   display: flex;
   flex-direction: column;
 
+  ${({ flex }) =>
+    flex &&
+    css`
+      flex: ${flex};
+    `};
   width: ${({ width }) => width};
   height: ${({ height }) => height};
   justify-content: ${({ justify }) => justify};

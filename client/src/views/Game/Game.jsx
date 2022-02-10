@@ -14,6 +14,7 @@ import Paragraph from '../../components/Paragraph/Paragraph';
 import TextareaInput from '../../components/Input/TextareaInput/TextareaInput';
 import UserLists from '../../components/Lists/UserLists/UserLists';
 import ChatLists from '../../components/Lists/ChatLists/ChatLists';
+import Button from '../../components/Button/Button';
 import Popup from '../../components/Popup/Popup';
 import GameEndTemplate from '../../components/Popup/Template/GameEndTemplate/GameEndTemplate';
 
@@ -24,30 +25,40 @@ function Game({ user, setUser }) {
 
   const chatRef = useRef();
 
+  const [isStarted, setIsStarted] = useState(false);
   const [message, setMessage] = useState();
   const [chats, setChats] = useState([]);
   const [notice, setNotice] = useState();
   const [userLists, setUserLists] = useState({ userList: [], show: false });
   const [song, setSong] = useState();
   const [songContinued, setSongContinued] = useState(false);
+  const [skip, setSkip] = useState({ voted: false, total: null, agree: null });
   const [winner, setWinner] = useState();
 
-  const [onKeyPressHandler, onSongPlayHandler, onSongStopHandler] = useSocketIO(
+  const [
+    onKeyPressHandler,
+    onSongPlayHandler,
+    onSongStopHandler,
+    onSkipHandler,
+    onDisconnectHandler,
+  ] = useSocketIO(
     user,
     setUser,
+    setIsStarted,
     setMessage,
     setChats,
     setNotice,
     setUserLists,
     setSong,
     setSongContinued,
+    setSkip,
     setWinner,
   );
 
   useScrollBottom(chatRef, chats);
 
   useEffect(() => {
-    return () =>
+    const resetUser = () =>
       setUser({
         id: null,
         nickname: null,
@@ -56,6 +67,11 @@ function Game({ user, setUser }) {
         winningCondition: null,
         role: null,
       });
+
+    return () => {
+      onDisconnectHandler();
+      resetUser();
+    };
   }, []);
 
   return (
@@ -66,12 +82,12 @@ function Game({ user, setUser }) {
         </Popup>
       )}
 
-      <Col width="100%" height="100%" align="center" padding="16px 32px">
+      <Col flex={1} height="100%" align="center" padding="16px 32px">
         <Row width="100%">
           <Icon
             name="back_circle"
             clickable
-            onClickHandler={() => navigate(-1)}
+            onClickHandler={() => navigate('/room')}
           />
 
           {userLists.show ? (
@@ -96,21 +112,23 @@ function Game({ user, setUser }) {
         <Col height="100%" justify="space-around">
           <Icon name="logo_medium" />
 
-          <Col justify="center" align="center" gap={5}>
-            <Paragraph
-              align="center"
-              color="White"
-              textStyle="Paragraph4"
-              text={GAME.CODE}
-            />
+          {!isStarted && (
+            <Col justify="center" align="center" gap={5}>
+              <Paragraph
+                align="center"
+                color="White"
+                textStyle="Paragraph2"
+                text={GAME.CODE}
+              />
 
-            <Paragraph
-              align="center"
-              color="White"
-              textStyle="Paragraph4"
-              text={user.roomId}
-            />
-          </Col>
+              <Paragraph
+                align="center"
+                color="White"
+                textStyle="Paragraph2"
+                text={user.roomId}
+              />
+            </Col>
+          )}
 
           <Col gap={32}>
             {user.role === USER_ROLE.HOST && !song && (
@@ -135,6 +153,14 @@ function Game({ user, setUser }) {
               textStyle="Paragraph1"
               text={notice}
             />
+
+            {song && !songContinued && skip.total !== skip.agree && (
+              <Button
+                type={skip.voted ? 'Primary' : 'Secondary'}
+                text={`건너뛰기 ${skip.agree}/${skip.total}`}
+                onClickHandler={() => onSkipHandler(user, skip.voted)}
+              />
+            )}
           </Col>
 
           <ReactPlayer
@@ -147,22 +173,9 @@ function Game({ user, setUser }) {
       </Col>
 
       {userLists.show && (
-        <StyledCol
-          width="200px"
-          height="100%"
-          align="center"
-          gap={26}
-          padding="35px 16px"
-        >
-          <Paragraph
-            align="center"
-            color="Primary"
-            textStyle="Paragraph4"
-            text={`${GAME.USERS} (${userLists.userList.length})`}
-          />
-
+        <Col width="250px" height="100%" align="center" padding="0 5px">
           <UserLists userLists={userLists.userList} />
-        </StyledCol>
+        </Col>
       )}
 
       <StyledCol width="400px" height="100%">

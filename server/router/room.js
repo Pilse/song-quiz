@@ -6,8 +6,13 @@ router.post("/code", (req, res) => {
 
   const room = Rooms.findRoom(code);
 
-  if (room) res.send(JSON.stringify(room.id));
-  else res.send(JSON.stringify(false));
+  if (room) {
+    if (!room.isStarted) {
+      res.send(JSON.stringify({ roomId: room.id, error: null }));
+    } else {
+      res.send(JSON.stringify({ roomId: null, error: "STARTED" }));
+    }
+  } else res.send(JSON.stringify({ roomId: null, error: "CODE" }));
 });
 
 router.post("/nickname", (req, res) => {

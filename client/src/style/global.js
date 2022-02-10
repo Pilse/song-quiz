@@ -27,7 +27,7 @@ const GlobalStyle = createGlobalStyle`
   }
 
   p {
-    word-wrap: break-word;
+    word-break: break-word;
   }
 `;
 

@@ -1,27 +1,26 @@
 import styled from 'styled-components';
+import Row from '../../../Layout/Row/Row';
+import Paragraph from '../../../Paragraph/Paragraph';
 
-export const UserListLayout = styled.div`
-  display: flex;
-  width: 100%;
-  align-items: center;
-  gap: 9px;
+export const StyledRow = styled(Row)`
+  border-radius: 5px;
+
+  background: ${({ theme }) => theme.Colors.White};
+
+  ${({ theme }) => theme.Shadow.BottomShadow}
 `;
 
-export const NicknameParagraph = styled.p`
+export const StyledParagraph = styled(Paragraph)`
   display: flex;
   flex: 1;
-
-  color: ${({ theme }) => theme.Colors.Gray};
-
-  ${({ theme }) => theme.TextStyles.Paragraph6};
 `;
 
 export const ScoreBox = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 16px;
-  height: 16px;
+  width: 20px;
+  height: 20px;
   border-radius: 100%;
   box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.25);
 
@@ -29,5 +28,5 @@ export const ScoreBox = styled.div`
 
   color: ${({ theme }) => theme.Colors.Primary};
 
-  ${({ theme }) => theme.TextStyles.Paragraph6};
+  ${({ theme }) => theme.TextStyles.Paragraph3};
 `;

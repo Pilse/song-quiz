@@ -13,6 +13,8 @@ const Colors = {
 
   LightGray: '#AAAAAA',
 
+  DarkWhite: '#DDDDDD',
+
   White: '#FFFFFF',
 
   IVORY: '#FCFCFC',
@@ -49,6 +51,12 @@ const Shadow = {
   ButtonShadow: css`
     box-shadow: 0 4px 32px 16px rgba(0, 0, 0, 0.1);
   `,
+  TopShadow: css`
+    box-shadow: 0 -10px 10px 0 rgba(0, 0, 0, 0.13);
+  `,
+  BottomShadow: css`
+    box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.13);
+  `,
 };
 
 const Transition = {
@@ -62,11 +70,24 @@ const Transition = {
   `,
 };
 
+const Scroll = {
+  Default: css`
+    ::-webkit-scrollbar {
+      background: transparent;
+      width: 5px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: ${({ theme }) => theme.Colors.Primary};
+    }
+  `,
+};
+
 const theme = {
   Colors,
   TextStyles,
   Shadow,
   Transition,
+  Scroll,
 };
 
 export default theme;

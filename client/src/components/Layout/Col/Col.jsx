@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { ColLayout } from './Col.style';
 
 function Col({
+  flex,
   width,
   height,
   justify,
@@ -15,7 +16,7 @@ function Col({
 }) {
   return (
     <ColLayout
-      {...{ width, height, justify, align, gap, padding }}
+      {...{ flex, width, height, justify, align, gap, padding }}
       className={className}
     >
       {children}
@@ -24,6 +25,7 @@ function Col({
 }
 
 Col.propTypes = {
+  flex: PropTypes.number,
   width: PropTypes.string,
   height: PropTypes.string,
   justify: PropTypes.string,
@@ -35,6 +37,7 @@ Col.propTypes = {
 };
 
 Col.defaultProps = {
+  flex: null,
   width: 'auto',
   height: 'auto',
   justify: 'unset',

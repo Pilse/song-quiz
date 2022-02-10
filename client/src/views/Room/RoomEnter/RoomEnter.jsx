@@ -24,10 +24,10 @@ function RoomEnter({ user, setUser }) {
   const onCodeSubmitHandler = async (event, _code) => {
     event.preventDefault();
 
-    const roomId = await validate(VALIDATE.CODE, _code);
+    const { roomId, error: codeError } = await validate(VALIDATE.CODE, _code);
 
-    if (!roomId) {
-      setError(() => ROOM.ERROR.CODE);
+    if (codeError) {
+      setError(() => ROOM.ERROR[codeError]);
       setCode();
     } else {
       setUser(prev => ({

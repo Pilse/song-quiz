@@ -7,15 +7,18 @@ export const ButtonLayout = styled.div`
   border-radius: 10px;
   padding: 25px 30px;
   cursor: pointer;
+  text-align: center;
   transition: 0.2s ease-out;
 
   :hover {
     transform: scale(0.95);
   }
 
-  background: ${({ theme }) => theme.Colors.Primary};
+  background: ${({ type, theme }) =>
+    type === 'Primary' ? theme.Colors.Primary : theme.Colors.White};
 
-  color: ${({ theme }) => theme.Colors.White};
+  color: ${({ type, theme }) =>
+    type === 'Primary' ? theme.Colors.White : theme.Colors.Primary};
 
   ${({ theme }) => theme.TextStyles.Paragraph3};
 

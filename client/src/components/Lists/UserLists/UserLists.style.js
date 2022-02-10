@@ -1,9 +1,12 @@
 /* eslint-disable import/prefer-default-export */
 import styled from 'styled-components';
+import Col from '../../Layout/Col/Col';
 
-export const UserListsLayout = styled.div`
-  display: flex;
-  width: 100%;
-  flex-direction: column;
-  gap: 10px;
+export const StyledCol = styled(Col)`
+  overflow-y: auto;
+  border-radius: 5px;
+
+  background-color: ${({ theme }) => `${theme.Colors.DarkWhite}26`};
+
+  ${({ theme }) => theme.Scroll.Default};
 `;

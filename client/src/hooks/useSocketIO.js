@@ -7,12 +7,14 @@ import { USER_ROLE } from '../utils/costants';
 function useSocketIO(
   user,
   setUser,
+  setIsStarted,
   setMessage,
   setChats,
   setNotice,
   setUserLists,
   setSong,
   setSongContinued,
+  setSkip,
   setWinner,
 ) {
   const socket = useMemo(
@@ -20,7 +22,7 @@ function useSocketIO(
       io('https://song-quiz.herokuapp.com', {
         'force new connection': true,
         reconnectionAttempts: 'Infinity',
-        timeout: 10000,
+        timeout: 100000,
         transports: ['websocket'],
       }),
     [],
@@ -28,14 +30,17 @@ function useSocketIO(
 
   const navigate = useNavigate();
 
+  const onDisconnectHandler = () => {
+    socket.disconnect();
+    navigate('/');
+  };
+
   useEffect(() => {
     let roomId;
     let userId;
 
     if (!user.nickname) {
-      socket.disconnect();
-      navigate('/');
-      return false;
+      onDisconnectHandler();
     }
 
     if (user.role === USER_ROLE.HOST) {
@@ -49,6 +54,8 @@ function useSocketIO(
         roomId: user.roomId,
       });
     }
+
+    socket.on('start', isStarted => setIsStarted(isStarted));
 
     socket.on('user', userInfo => {
       roomId = userInfo.roomId;
@@ -82,10 +89,20 @@ function useSocketIO(
 
     socket.on('notice', notice => setNotice(() => notice));
 
-    socket.on('play', song => setSong(() => song));
+    socket.on('play', song => {
+      setSong(() => song);
+
+      if (song) {
+        setSkip(prev => ({ ...prev, voted: false }));
+      }
+    });
 
     socket.on('continue', songContinued =>
       setSongContinued(() => songContinued),
+    );
+
+    socket.on('skip', ({ total, agree }) =>
+      setSkip(prev => ({ ...prev, total, agree })),
     );
 
     socket.on('end', winner => setWinner(winner));
@@ -121,7 +138,19 @@ function useSocketIO(
     socket.emit('stop', { roomId: _user.roomId });
   };
 
-  return [onKeyPressHandler, onSongPlayHandler, onSongStopHandler];
+  const onSkipHandler = (_user, voted) => {
+    socket.emit('skip', { roomId: _user.roomId, vote: voted ? -1 : 1 });
+
+    setSkip(prev => ({ ...prev, voted: !prev.voted }));
+  };
+
+  return [
+    onKeyPressHandler,
+    onSongPlayHandler,
+    onSongStopHandler,
+    onSkipHandler,
+    onDisconnectHandler,
+  ];
 }
 
 export default useSocketIO;
