@@ -17,6 +17,9 @@ import ChatLists from '../../components/Lists/ChatLists/ChatLists';
 import Button from '../../components/Button/Button';
 import Popup from '../../components/Popup/Popup';
 import GameEndTemplate from '../../components/Popup/Template/GameEndTemplate/GameEndTemplate';
+import GameInfoTemplate from '../../components/Popup/Template/GameInfoTemplate/GameInfoTemplate';
+import Playing from '../../components/Playing/Playing';
+import Loading from '../../components/Loading/Loading';
 
 import { ChatLog, InputForm, StyledCol } from './Game.style';
 
@@ -26,10 +29,12 @@ function Game({ user, setUser }) {
   const chatRef = useRef();
 
   const [isStarted, setIsStarted] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [message, setMessage] = useState();
   const [chats, setChats] = useState([]);
   const [notice, setNotice] = useState();
   const [userLists, setUserLists] = useState({ userList: [], show: false });
+  const [gameInfoShow, setGameInfoShow] = useState(false);
   const [song, setSong] = useState();
   const [songContinued, setSongContinued] = useState(false);
   const [skip, setSkip] = useState({ voted: false, total: null, agree: null });
@@ -45,6 +50,7 @@ function Game({ user, setUser }) {
     user,
     setUser,
     setIsStarted,
+    setIsLoading,
     setMessage,
     setChats,
     setNotice,
@@ -74,11 +80,21 @@ function Game({ user, setUser }) {
     };
   }, []);
 
-  return (
+  return isLoading ? (
+    <Loading />
+  ) : (
     <Row width="100%" height="100%" justify="center" align="center">
       {winner && (
         <Popup>
           <GameEndTemplate winner={winner} />
+        </Popup>
+      )}
+
+      {gameInfoShow && (
+        <Popup>
+          <GameInfoTemplate
+            onClickHandler={() => setGameInfoShow(prev => !prev)}
+          />
         </Popup>
       )}
 
@@ -89,6 +105,20 @@ function Game({ user, setUser }) {
             clickable
             onClickHandler={() => navigate('/room')}
           />
+
+          {gameInfoShow ? (
+            <Icon
+              name="info_circle_active"
+              clickable
+              onClickHandler={() => setGameInfoShow(prev => !prev)}
+            />
+          ) : (
+            <Icon
+              name="info_circle_inactive"
+              clickable
+              onClickHandler={() => setGameInfoShow(prev => !prev)}
+            />
+          )}
 
           {userLists.show ? (
             <Icon
@@ -109,8 +139,8 @@ function Game({ user, setUser }) {
           )}
         </Row>
 
-        <Col height="100%" justify="space-around">
-          <Icon name="logo_medium" />
+        <Col height="100%" justify="space-around" align="center">
+          <Playing playing={!!song} />
 
           {!isStarted && (
             <Col justify="center" align="center" gap={5}>

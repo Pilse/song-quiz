@@ -9,7 +9,7 @@ import Box from '../../../components/Layout/Box/Box';
 import Col from '../../../components/Layout/Col/Col';
 import Icon from '../../../components/Icon/Icon';
 import TextInput from '../../../components/Input/TextInput/TextInput';
-import NoticeLabel from '../../../components/Label/NoticeLabel/NoticeLabel';
+import Paragraph from '../../../components/Paragraph/Paragraph';
 
 import { InputForm } from './RoomCreate.style';
 
@@ -54,14 +54,24 @@ function RoomCreate({ setUser }) {
       gap={129}
       padding="64px 0 0 0"
     >
-      <Icon name="logo_small" />
+      <Icon
+        name="logo_small"
+        clickable
+        onClickHandler={() => navigate('/home')}
+      />
 
       {step === 1 && (
-        <Box column size="lg">
+        <Box column type="free">
           <InputForm
             onSubmit={event => onConditionSubmitHandler(event, condition)}
           >
-            <NoticeLabel size="lg" text={ROOM.LABEL.CONDITION} />
+            <Paragraph
+              width="100%"
+              align="center"
+              color="Primary"
+              textStyle="Paragraph2"
+              text={ROOM.LABEL.CONDITION}
+            />
 
             <TextInput
               type="number"
@@ -75,11 +85,17 @@ function RoomCreate({ setUser }) {
       )}
 
       {step === 2 && (
-        <Box column size="lg">
+        <Box column type="free">
           <InputForm
             onSubmit={event => onNickNameSubmitHandler(event, nickname)}
           >
-            <NoticeLabel size="lg" text={ROOM.LABEL.NICKNAME} />
+            <Paragraph
+              width="100%"
+              align="center"
+              color="Primary"
+              textStyle="Paragraph2"
+              text={ROOM.LABEL.NICKNAME}
+            />
 
             <TextInput
               placeholder={ROOM.PLACEHOLDER.NICKNAME}

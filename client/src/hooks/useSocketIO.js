@@ -8,6 +8,7 @@ function useSocketIO(
   user,
   setUser,
   setIsStarted,
+  setIsLoading,
   setMessage,
   setChats,
   setNotice,
@@ -34,6 +35,12 @@ function useSocketIO(
     socket.disconnect();
     navigate('/');
   };
+
+  useEffect(() => {
+    if (socket.connected) {
+      setIsLoading(() => false);
+    }
+  }, [socket.connected]);
 
   useEffect(() => {
     let roomId;

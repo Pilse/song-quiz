@@ -34,5 +34,5 @@ export const ErrorParagraph = styled.p`
 
   color: ${({ theme }) => theme.Colors.Error};
 
-  ${({ theme }) => theme.TextStyles.Paragraph7};
+  ${({ theme }) => theme.TextStyles.Paragraph4};
 `;

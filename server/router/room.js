@@ -20,8 +20,15 @@ router.post("/nickname", (req, res) => {
 
   const room = Rooms.findRoom(roomId);
 
-  if (room.isDupliactedNickname(nickname)) res.send(JSON.stringify(false));
-  else res.send(JSON.stringify(true));
+  if (room) {
+    if (!room.isStarted) {
+      if (room.isDuplicatedNickname(nickname)) {
+        res.send(JSON.stringify({ isDuplicated: true, error: null }));
+      } else res.send(JSON.stringify({ isDuplicated: false, error: null }));
+    } else {
+      res.send(JSON.stringify({ isDuplicated: null, error: "STARTED" }));
+    }
+  } else res.send(JSON.stringify({ roomId: null, error: "DELETED" }));
 });
 
 module.exports = router;

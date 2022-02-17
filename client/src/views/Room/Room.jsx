@@ -20,10 +20,14 @@ function Room() {
       gap={129}
       padding="64px 0 0 0"
     >
-      <Icon name="logo_small" />
+      <Icon
+        name="logo_small"
+        clickable
+        onClickHandler={() => navigate('/home')}
+      />
 
       <Row width="100%" justify="center" align="center" gap={158}>
-        <Box column gap={25} size="md">
+        <Box column gap={25} type="square">
           <Paragraph
             align="center"
             color="Primary"
@@ -38,7 +42,7 @@ function Room() {
           />
         </Box>
 
-        <Box column gap={25} size="md">
+        <Box column gap={25} type="square">
           <Paragraph
             align="center"
             color="Primary"

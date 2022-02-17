@@ -8,7 +8,7 @@ import { AbsoluteCol } from './Popup.style';
 function Popup({ children }) {
   return (
     <AbsoluteCol width="100%" height="100%" justify="center" align="center">
-      <Box column size="lg">
+      <Box column type="free">
         {children}
       </Box>
     </AbsoluteCol>

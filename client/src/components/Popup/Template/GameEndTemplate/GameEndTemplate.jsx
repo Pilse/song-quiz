@@ -11,7 +11,7 @@ function GameEndTemplate({ winner }) {
   const navigate = useNavigate();
 
   return (
-    <Col width="min(496px, 50vw)" justify="center" align="center" gap={33}>
+    <Col width="min(700px, 50vw)" justify="center" align="center" gap={33}>
       <Paragraph
         align="center"
         color="Primary"

@@ -9,8 +9,8 @@ import Box from '../../../components/Layout/Box/Box';
 import Icon from '../../../components/Icon/Icon';
 import Col from '../../../components/Layout/Col/Col';
 import TextInput from '../../../components/Input/TextInput/TextInput';
-import NoticeLabel from '../../../components/Label/NoticeLabel/NoticeLabel';
 import Loading from '../../../components/Loading/Loading';
+import Paragraph from '../../../components/Paragraph/Paragraph';
 
 import { InputForm } from './RoomEnter.style';
 
@@ -48,13 +48,18 @@ function RoomEnter({ user, setUser }) {
     event.preventDefault();
 
     setLoading(() => true);
-    const isDuplicated = await validate(VALIDATE.NICKNAME, {
-      roomId: user.roomId,
-      nickname: _nickname,
-    });
+    const { isDuplicated, error: nicknameError } = await validate(
+      VALIDATE.NICKNAME,
+      {
+        roomId: user.roomId,
+        nickname: _nickname,
+      },
+    );
     setLoading(() => false);
 
-    if (!isDuplicated) {
+    if (nicknameError) {
+      setError(() => ROOM.ERROR[nicknameError]);
+    } else if (isDuplicated) {
       setError(() => ROOM.ERROR.NICKNAME);
       setNickname();
     } else {
@@ -79,12 +84,22 @@ function RoomEnter({ user, setUser }) {
       gap={129}
       padding="64px 0 0 0"
     >
-      <Icon name="logo_small" />
+      <Icon
+        name="logo_small"
+        clickable
+        onClickHandler={() => navigate('/home')}
+      />
 
       {step === 1 && (
-        <Box column size="lg">
+        <Box column type="free">
           <InputForm onSubmit={event => onCodeSubmitHandler(event, code)}>
-            <NoticeLabel size="lg" text={ROOM.LABEL.CODE} />
+            <Paragraph
+              width="100%"
+              align="center"
+              color="Primary"
+              textStyle="Paragraph2"
+              text={ROOM.LABEL.CODE}
+            />
 
             <TextInput
               placeholder={ROOM.PLACEHOLDER.CODE}
@@ -97,11 +112,17 @@ function RoomEnter({ user, setUser }) {
       )}
 
       {step === 2 && (
-        <Box column size="lg">
+        <Box column type="free">
           <InputForm
             onSubmit={event => onNickNameSubmitHandler(event, nickname)}
           >
-            <NoticeLabel size="lg" text={ROOM.LABEL.NICKNAME} />
+            <Paragraph
+              width="100%"
+              align="center"
+              color="Primary"
+              textStyle="Paragraph2"
+              text={ROOM.LABEL.NICKNAME}
+            />
 
             <TextInput
               placeholder={ROOM.PLACEHOLDER.NICKNAME}

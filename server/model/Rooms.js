@@ -31,16 +31,8 @@ class Rooms {
     )[0];
   }
 
-  deleteRoom(roomId) {
-    this.rooms = this.rooms.filter((room) => room.id === roomId);
-  }
-
   deleteEmptyRoom() {
-    this.rooms.forEach((room) => {
-      if (room.length === 0) {
-        this.deleteRoom(room.id);
-      }
-    });
+    this.rooms = this.rooms.filter((room) => room.users.length > 0);
   }
 }
 

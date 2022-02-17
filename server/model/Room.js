@@ -57,7 +57,7 @@ class Room {
     this.round += 1;
   }
 
-  isDupliactedNickname(nickname) {
+  isDuplicatedNickname(nickname) {
     return this.users.find((user) => user.nickname === nickname);
   }
 

@@ -2,8 +2,8 @@
 <g filter="url(#filter0_d_64_102)">
 <circle cx="33" cy="29" r="25" fill="url(#paint0_linear_64_102)"/>
 </g>
-<ellipse cx="33" cy="22.5833" rx="5" ry="4.58333" fill="white"/>
-<path d="M39 39.9998H27C26.4477 39.9998 26 39.5521 26 38.9998V30.9188C26 30.6612 26.097 30.4128 26.2827 30.2342C28.8317 27.7823 34.6099 24.7741 39.7404 30.2333C39.9081 30.4117 40 30.6526 40 30.8975V38.9998C40 39.5521 39.5523 39.9998 39 39.9998Z" fill="white"/>
+<ellipse cx="33" cy="19.5833" rx="5" ry="4.58333" fill="white"/>
+<path d="M39 44.0001H27C26.4477 44.0001 26 43.5524 26 43.0001V30.4493C26 30.1412 26.1468 29.8465 26.3897 29.6571C32.875 24.6013 33.125 24.6013 39.6103 29.657C39.8532 29.8464 40 30.1411 40 30.4492V43.0001C40 43.5524 39.5523 44.0001 39 44.0001Z" fill="white"/>
 <defs>
 <filter id="filter0_d_64_102" x="0" y="0" width="66" height="66" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
 <feFlood flood-opacity="0" result="BackgroundImageFix"/>

@@ -57,6 +57,9 @@ const Shadow = {
   BottomShadow: css`
     box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.13);
   `,
+  ListShadow: css`
+    box-shadow: 0 6px 13px 0 rgba(0, 0, 0, 0.25);
+  `,
 };
 
 const Transition = {

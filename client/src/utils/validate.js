@@ -8,9 +8,11 @@ const conditionValidator = payload => {
 };
 
 const nicknameValidator = async payload => {
-  const { data: isDuplicated } = await Room.checkNickname(payload);
+  const {
+    data: { isDuplicated, error },
+  } = await Room.checkNickname(payload);
 
-  return isDuplicated;
+  return { isDuplicated, error };
 };
 
 const codeValidator = async payload => {

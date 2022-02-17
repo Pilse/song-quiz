@@ -3,6 +3,8 @@ import styled, { css } from 'styled-components';
 
 export const BoxLayout = styled.div`
   display: flex;
+  justify-content: center;
+  align-items: center;
 
   background: ${({ theme }) => theme.Colors.White};
 
@@ -14,15 +16,16 @@ export const BoxLayout = styled.div`
       flex-direction: column;
     `};
 
-  ${({ size }) =>
-    size === 'md'
+  ${({ type }) =>
+    type === 'square'
       ? css`
           border-radius: 10px;
-          padding: 42px 87px;
+          width: 300px;
+          height: 300px;
         `
       : css`
           border-radius: 20px;
-          padding: 30px 107px;
+          padding: 30px;
         `}
 
   ${({ gap }) =>
