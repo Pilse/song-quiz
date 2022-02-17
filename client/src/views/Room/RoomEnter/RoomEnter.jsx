@@ -10,6 +10,7 @@ import Icon from '../../../components/Icon/Icon';
 import Col from '../../../components/Layout/Col/Col';
 import TextInput from '../../../components/Input/TextInput/TextInput';
 import NoticeLabel from '../../../components/Label/NoticeLabel/NoticeLabel';
+import Loading from '../../../components/Loading/Loading';
 
 import { InputForm } from './RoomEnter.style';
 
@@ -20,11 +21,14 @@ function RoomEnter({ user, setUser }) {
   const [nickname, setNickname] = useState();
   const [step, setStep] = useState(1);
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const onCodeSubmitHandler = async (event, _code) => {
     event.preventDefault();
 
+    setLoading(() => true);
     const { roomId, error: codeError } = await validate(VALIDATE.CODE, _code);
+    setLoading(() => false);
 
     if (codeError) {
       setError(() => ROOM.ERROR[codeError]);
@@ -43,10 +47,12 @@ function RoomEnter({ user, setUser }) {
   const onNickNameSubmitHandler = async (event, _nickname) => {
     event.preventDefault();
 
+    setLoading(() => true);
     const isDuplicated = await validate(VALIDATE.NICKNAME, {
       roomId: user.roomId,
       nickname: _nickname,
     });
+    setLoading(() => false);
 
     if (!isDuplicated) {
       setError(() => ROOM.ERROR.NICKNAME);
@@ -63,7 +69,9 @@ function RoomEnter({ user, setUser }) {
     }
   };
 
-  return (
+  return loading ? (
+    <Loading />
+  ) : (
     <Col
       width="100%"
       height="100%"

@@ -91,7 +91,7 @@ io.on("connection", (socket) => {
       room.users.map((user) => user.userInfo())
     );
 
-    room.skipVotes = Math.max(room.users.length, room.skipVotes);
+    room.skipVotes = Math.min(room.users.length, room.skipVotes);
 
     io.to(room.id).emit("skip", {
       total: room.users.length,
@@ -235,7 +235,7 @@ io.on("connection", (socket) => {
         room.users.map((user) => user.userInfo())
       );
 
-      room.skipVotes = Math.max(room.users.length, room.skipVotes);
+      room.skipVotes = Math.min(room.users.length, room.skipVotes);
 
       io.to(room.id).emit("skip", {
         total: room.users.length,

@@ -53,7 +53,7 @@ class Room {
   }
 
   updateSong() {
-    this.song = songs[Math.floor(Math.random() * 590)];
+    this.song = songs[Math.floor(Math.random() * 388)];
     this.round += 1;
   }
 

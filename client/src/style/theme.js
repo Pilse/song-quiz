@@ -1,6 +1,6 @@
 import { css } from 'styled-components';
 
-const Colors = {
+export const Colors = {
   Primary: '#6867AC',
 
   Secondary: '#A267AC',
