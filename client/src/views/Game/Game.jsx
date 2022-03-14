@@ -16,8 +16,10 @@ import UserLists from '../../components/Lists/UserLists/UserLists';
 import ChatLists from '../../components/Lists/ChatLists/ChatLists';
 import Button from '../../components/Button/Button';
 import Popup from '../../components/Popup/Popup';
+import GameMenuTemplate from '../../components/Popup/Template/GameMenuTemplate/GameMenuTemplate';
 import GameEndTemplate from '../../components/Popup/Template/GameEndTemplate/GameEndTemplate';
 import GameInfoTemplate from '../../components/Popup/Template/GameInfoTemplate/GameInfoTemplate';
+import GameSettingTemplate from '../../components/Popup/Template/GameSettingTemplate/GameSettingTemplate';
 import Playing from '../../components/Playing/Playing';
 import Loading from '../../components/Loading/Loading';
 
@@ -34,10 +36,12 @@ function Game({ user, setUser }) {
   const [chats, setChats] = useState([]);
   const [notice, setNotice] = useState();
   const [userLists, setUserLists] = useState({ userList: [], show: false });
-  const [gameInfoShow, setGameInfoShow] = useState(false);
+  const [gameMenuShow, setGameMenuShow] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState(GAME.SETTING);
   const [song, setSong] = useState();
   const [songContinued, setSongContinued] = useState(false);
   const [skip, setSkip] = useState({ voted: false, total: null, agree: null });
+  const [setting, setSetting] = useState({ volume: 40 });
   const [winner, setWinner] = useState();
 
   const [
@@ -90,11 +94,22 @@ function Game({ user, setUser }) {
         </Popup>
       )}
 
-      {gameInfoShow && (
+      {gameMenuShow && (
         <Popup>
-          <GameInfoTemplate
-            onClickHandler={() => setGameInfoShow(prev => !prev)}
-          />
+          <GameMenuTemplate
+            onClickHandler={() => setGameMenuShow(prev => !prev)}
+            onChangeHandler={category => setSelectedCategory(() => category)}
+            selectedCategory={selectedCategory}
+          >
+            {selectedCategory === GAME.SETTING && (
+              <GameSettingTemplate
+                onVolumeInputHandler={setSetting}
+                setting={setting}
+              />
+            )}
+
+            {selectedCategory === GAME.GAMEINFO && <GameInfoTemplate />}
+          </GameMenuTemplate>
         </Popup>
       )}
 
@@ -106,19 +121,11 @@ function Game({ user, setUser }) {
             onClickHandler={() => navigate('/room')}
           />
 
-          {gameInfoShow ? (
-            <Icon
-              name="info_circle_active"
-              clickable
-              onClickHandler={() => setGameInfoShow(prev => !prev)}
-            />
-          ) : (
-            <Icon
-              name="info_circle_inactive"
-              clickable
-              onClickHandler={() => setGameInfoShow(prev => !prev)}
-            />
-          )}
+          <Icon
+            name="menu_circle"
+            clickable
+            onClickHandler={() => setGameMenuShow(prev => !prev)}
+          />
 
           {userLists.show ? (
             <Icon
@@ -198,6 +205,8 @@ function Game({ user, setUser }) {
             autoPlay
             url={`https://www.youtube.com/watch?v=${song}`}
             playing={!!song}
+            volume={setting.volume / 100}
+            loop
           />
         </Col>
       </Col>

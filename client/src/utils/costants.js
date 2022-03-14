@@ -42,6 +42,7 @@ export const GAME = {
   GAMESET: '게임종료',
   GAMEINFO: '게임정보',
   HOME: '홈으로 돌아가기',
+  SETTING: '게임설정',
   TYPE: {
     NOTICE: 'notice',
     MESSAGE: 'message',

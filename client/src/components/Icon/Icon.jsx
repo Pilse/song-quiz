@@ -13,6 +13,7 @@ function Icon({ name, clickable, onClickHandler }) {
         alt={name}
         {...{ clickable }}
         onClick={onClickHandler}
+        draggable={false}
       />
     </Row>
   );
