@@ -13,6 +13,7 @@ import Loading from '../../../components/Loading/Loading';
 import Paragraph from '../../../components/Paragraph/Paragraph';
 
 import { InputForm } from './RoomEnter.style';
+import isMobile from '../../../utils/window';
 
 function RoomEnter({ user, setUser }) {
   const navigate = useNavigate();
@@ -82,7 +83,7 @@ function RoomEnter({ user, setUser }) {
       height="100%"
       align="center"
       gap={129}
-      padding="64px 0 0 0"
+      padding={isMobile() ? '64px 10px 0 10px' : '64px 0 0 0'}
     >
       <Icon
         name="logo_small"
@@ -91,7 +92,7 @@ function RoomEnter({ user, setUser }) {
       />
 
       {step === 1 && (
-        <Box column type="free">
+        <Box column type={isMobile() ? 'stretch' : 'free'}>
           <InputForm onSubmit={event => onCodeSubmitHandler(event, code)}>
             <Paragraph
               width="100%"
@@ -112,7 +113,7 @@ function RoomEnter({ user, setUser }) {
       )}
 
       {step === 2 && (
-        <Box column type="free">
+        <Box column type={isMobile() ? 'stretch' : 'free'}>
           <InputForm
             onSubmit={event => onNickNameSubmitHandler(event, nickname)}
           >

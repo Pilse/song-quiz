@@ -12,6 +12,7 @@ import TextInput from '../../../components/Input/TextInput/TextInput';
 import Paragraph from '../../../components/Paragraph/Paragraph';
 
 import { InputForm } from './RoomCreate.style';
+import isMobile from '../../../utils/window';
 
 function RoomCreate({ setUser }) {
   const navigate = useNavigate();
@@ -52,7 +53,7 @@ function RoomCreate({ setUser }) {
       height="100%"
       align="center"
       gap={129}
-      padding="64px 0 0 0"
+      padding={isMobile() ? '64px 10px 0 10px' : '64px 0 0 0'}
     >
       <Icon
         name="logo_small"
@@ -61,7 +62,7 @@ function RoomCreate({ setUser }) {
       />
 
       {step === 1 && (
-        <Box column type="free">
+        <Box column type={isMobile() ? 'stretch' : 'free'}>
           <InputForm
             onSubmit={event => onConditionSubmitHandler(event, condition)}
           >
@@ -85,7 +86,7 @@ function RoomCreate({ setUser }) {
       )}
 
       {step === 2 && (
-        <Box column type="free">
+        <Box column type={isMobile() ? 'stretch' : 'free'}>
           <InputForm
             onSubmit={event => onNickNameSubmitHandler(event, nickname)}
           >

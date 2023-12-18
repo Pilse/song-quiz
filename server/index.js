@@ -245,10 +245,7 @@ io.on("connection", (socket) => {
       if (room.skipVotes === room.users.length) {
         room.isAllowed = false;
 
-        io.to(room.id).emit(
-          "notice",
-          `${room.song.song} - ${room.song.artist}`
-        );
+        io.to(room.id).emit("notice", `${room.song.song} - ${room.song.artist}`);
         io.to(room.id).emit("continue", true);
 
         const noticeMessage = {
@@ -263,6 +260,6 @@ io.on("connection", (socket) => {
   });
 });
 
-const port = process.env.PORT || 8000;
+const port = process.env.PORT || 8020;
 
 server.listen(port, () => console.log(`Listening on port ${port}`));

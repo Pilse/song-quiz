@@ -24,12 +24,15 @@ import Playing from '../../components/Playing/Playing';
 import Loading from '../../components/Loading/Loading';
 
 import { ChatLog, InputForm, StyledCol } from './Game.style';
+import isMobile from '../../utils/window';
+import { AbsoluteCol } from '../../components/Popup/Popup.style';
 
 function Game({ user, setUser }) {
   const navigate = useNavigate();
 
   const chatRef = useRef();
 
+  const [textMode, setTextMode] = useState(false);
   const [isStarted, setIsStarted] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [message, setMessage] = useState();
@@ -84,8 +87,178 @@ function Game({ user, setUser }) {
     };
   }, []);
 
-  return isLoading ? (
-    <Loading />
+  if (isLoading) {
+    return <Loading />;
+  }
+
+  return isMobile() ? (
+    <Col width="100%" height="100%" justify="center" align="center">
+      {winner && (
+        <Popup>
+          <GameEndTemplate winner={winner} />
+        </Popup>
+      )}
+
+      {gameMenuShow && (
+        <Popup>
+          <GameMenuTemplate
+            onClickHandler={() => setGameMenuShow(prev => !prev)}
+            onChangeHandler={category => setSelectedCategory(() => category)}
+            selectedCategory={selectedCategory}
+          >
+            {selectedCategory === GAME.SETTING && (
+              <GameSettingTemplate
+                onVolumeInputHandler={setSetting}
+                setting={setting}
+              />
+            )}
+
+            {selectedCategory === GAME.GAMEINFO && <GameInfoTemplate />}
+          </GameMenuTemplate>
+        </Popup>
+      )}
+
+      <Col flex={1} height="100%" align="center" padding="16px 0" gap={10}>
+        <Row width="100%">
+          <Icon
+            name="back_circle"
+            clickable
+            onClickHandler={() => navigate('/room')}
+          />
+
+          <Icon
+            name="menu_circle"
+            clickable
+            onClickHandler={() => setGameMenuShow(prev => !prev)}
+          />
+
+          {userLists.show ? (
+            <Icon
+              name="user_circle_active"
+              clickable
+              onClickHandler={() =>
+                setUserLists(prev => ({ ...prev, show: !prev.show }))
+              }
+            />
+          ) : (
+            <Icon
+              name="user_circle_inactive"
+              clickable
+              onClickHandler={() =>
+                setUserLists(prev => ({ ...prev, show: !prev.show }))
+              }
+            />
+          )}
+        </Row>
+
+        <Col height="100%" justify="space-around" align="center" gap={32}>
+          <Playing
+            playing={!!song}
+            onClick={() => {
+              setTextMode(prev => !prev);
+            }}
+          />
+          {!textMode && !isStarted && (
+            <Col justify="center" align="center" gap={5}>
+              <Paragraph
+                align="center"
+                color="White"
+                textStyle="Paragraph2"
+                text={GAME.CODE}
+              />
+
+              <Paragraph
+                align="center"
+                color="White"
+                textStyle="Paragraph2"
+                text={user.roomId}
+              />
+            </Col>
+          )}
+
+          {!textMode && (
+            <Col gap={32}>
+              {user.role === USER_ROLE.HOST && !song && (
+                <Icon
+                  name="play_small"
+                  clickable
+                  onClickHandler={() => onSongPlayHandler(user)}
+                />
+              )}
+
+              {user.role === USER_ROLE.HOST && songContinued && (
+                <Icon
+                  name="pause_small"
+                  clickable
+                  onClickHandler={() => onSongStopHandler(user)}
+                />
+              )}
+
+              <Paragraph
+                align="center"
+                color="White"
+                textStyle="Paragraph1"
+                text={notice}
+              />
+
+              {song && !songContinued && skip.total !== skip.agree && (
+                <Button
+                  type={skip.voted ? 'Primary' : 'Secondary'}
+                  text={`건너뛰기 ${skip.agree}/${skip.total}`}
+                  onClickHandler={() => onSkipHandler(user, skip.voted)}
+                />
+              )}
+            </Col>
+          )}
+
+          <ReactPlayer
+            style={{ display: 'none' }}
+            autoPlay
+            url={`https://www.youtube.com/watch?v=${song}`}
+            playing={!!song}
+            volume={setting.volume / 100}
+            loop
+          />
+        </Col>
+      </Col>
+
+      {userLists.show && isMobile() && (
+        <AbsoluteCol
+          width="100%"
+          height="50vh"
+          justify="center"
+          align="center"
+          margin="80px 0px"
+          padding="0px 5px"
+          left="50%"
+          top="50%"
+        >
+          <UserLists userLists={userLists.userList} />
+        </AbsoluteCol>
+      )}
+
+      {userLists.show && !isMobile() && (
+        <Col width="250px" height="100%" align="center" padding="0 5px">
+          <UserLists userLists={userLists.userList} />
+        </Col>
+      )}
+
+      <StyledCol width="100%" height="100%">
+        <ChatLog ref={chatRef}>
+          {chats && (
+            <ChatLists chatLists={chats} userNickname={user.nickname} />
+          )}
+        </ChatLog>
+
+        <InputForm onKeyPress={e => onKeyPressHandler(e, message)}>
+          <TextareaInput
+            placeholder="답을 입력해주세요"
+            value={message}
+            onChangeHandler={e => setMessage(() => e.target.value)}
+          />
+        </InputForm>
+      </StyledCol>
+    </Col>
   ) : (
     <Row width="100%" height="100%" justify="center" align="center">
       {winner && (

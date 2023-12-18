@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 
 import { BoxLayout } from './Box.style';
 
-function Box({ type, column, gap, children }) {
-  return <BoxLayout {...{ type, column, gap }}>{children}</BoxLayout>;
+function Box({ type, column, gap, onClick, children }) {
+  return <BoxLayout {...{ type, column, gap, onClick }}>{children}</BoxLayout>;
 }
 
 Box.propTypes = {
@@ -12,11 +12,13 @@ Box.propTypes = {
   children: PropTypes.node.isRequired,
   column: PropTypes.bool,
   gap: PropTypes.number,
+  onClick: PropTypes.func,
 };
 
 Box.defaultProps = {
   column: false,
   gap: null,
+  onClick: undefined,
 };
 
 export default Box;

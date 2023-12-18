@@ -13,10 +13,11 @@ function Row({
   padding,
   className,
   children,
+  onClick,
 }) {
   return (
     <RowLayout
-      {...{ flex, width, height, justify, align, padding, gap }}
+      {...{ flex, width, height, justify, align, padding, gap, onClick }}
       className={className}
     >
       {children}
@@ -34,6 +35,7 @@ Row.propTypes = {
   padding: PropTypes.string,
   className: PropTypes.string,
   children: PropTypes.node,
+  onClick: PropTypes.func,
 };
 
 Row.defaultProps = {
@@ -46,6 +48,7 @@ Row.defaultProps = {
   padding: '0',
   className: null,
   children: null,
+  onClick: undefined,
 };
 
 export default Row;

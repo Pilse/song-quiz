@@ -8,6 +8,7 @@ import Box from '../../components/Layout/Box/Box';
 import Col from '../../components/Layout/Col/Col';
 import Row from '../../components/Layout/Row/Row';
 import Paragraph from '../../components/Paragraph/Paragraph';
+import isMobile from '../../utils/window';
 
 function Room() {
   const navigate = useNavigate();
@@ -18,7 +19,7 @@ function Room() {
       height="100%"
       align="center"
       gap={129}
-      padding="64px 0 0 0"
+      padding={isMobile() ? '64px 10px 0 10px' : '64px 0 0 0'}
     >
       <Icon
         name="logo_small"
@@ -26,37 +27,79 @@ function Room() {
         onClickHandler={() => navigate('/home')}
       />
 
-      <Row width="100%" justify="center" align="center" gap={158}>
-        <Box column gap={25} type="square">
-          <Paragraph
-            align="center"
-            color="Primary"
-            textStyle="Paragraph2"
-            text={ROOM.CREATE}
-          />
+      {isMobile() ? (
+        <Col width="100%" justify="center" align="center" gap={10}>
+          <Box
+            column
+            gap={25}
+            type="stretch"
+            onClick={() => navigate('/room/create')}
+          >
+            <Paragraph
+              align="center"
+              color="Primary"
+              textStyle="Paragraph2"
+              text={ROOM.CREATE}
+            />
 
-          <Icon
-            name="room_create"
-            clickable
-            onClickHandler={() => navigate('/room/create')}
-          />
-        </Box>
+            <Icon name="room_create" clickable />
+          </Box>
 
-        <Box column gap={25} type="square">
-          <Paragraph
-            align="center"
-            color="Primary"
-            textStyle="Paragraph2"
-            text={ROOM.ENTER}
-          />
+          <Box
+            column
+            gap={25}
+            type="stretch"
+            onClick={() => navigate('/room/enter')}
+          >
+            <Paragraph
+              align="center"
+              color="Primary"
+              textStyle="Paragraph2"
+              text={ROOM.ENTER}
+            />
 
-          <Icon
-            name="room_enter"
-            clickable
-            onClickHandler={() => navigate('/room/enter')}
-          />
-        </Box>
-      </Row>
+            <Icon name="room_enter" clickable />
+          </Box>
+        </Col>
+      ) : (
+        <Row width="100%" justify="center" align="center" gap={158}>
+          <Box
+            column
+            gap={25}
+            type="square"
+            onClick={() => navigate('/room/create')}
+          >
+            <Paragraph
+              align="center"
+              color="Primary"
+              textStyle="Paragraph2"
+              text={ROOM.CREATE}
+            />
+
+            <Icon
+              name="room_create"
+              clickable
+              onClickHandler={() => navigate('/room/create')}
+            />
+          </Box>
+
+          <Box
+            column
+            gap={25}
+            type="square"
+            onClick={() => navigate('/room/enter')}
+          >
+            <Paragraph
+              align="center"
+              color="Primary"
+              textStyle="Paragraph2"
+              text={ROOM.ENTER}
+            />
+
+            <Icon name="room_enter" clickable />
+          </Box>
+        </Row>
+      )}
     </Col>
   );
 }

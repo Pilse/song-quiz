@@ -101,6 +101,7 @@ export const ChatLog = styled.div`
   gap: 20px;
   flex: 1;
   padding: 35px 5px;
+  height: 600px;
   overflow-y: auto;
 
   ${({ theme }) => theme.Scroll.Default};

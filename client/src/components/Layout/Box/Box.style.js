@@ -16,17 +16,28 @@ export const BoxLayout = styled.div`
       flex-direction: column;
     `};
 
-  ${({ type }) =>
-    type === 'square'
-      ? css`
-          border-radius: 10px;
-          width: 300px;
-          height: 300px;
-        `
-      : css`
-          border-radius: 20px;
-          padding: 30px;
-        `}
+  ${({ type }) => {
+    if (type === 'square') {
+      return css`
+        border-radius: 10px;
+        width: 300px;
+        height: 300px;
+      `;
+    }
+
+    if (type === 'stretch') {
+      return css`
+        border-radius: 20px;
+        padding: 30px;
+        width: 100%;
+      `;
+    }
+
+    return css`
+      border-radius: 20px;
+      padding: 30px;
+    `;
+  }}
 
   ${({ gap }) =>
     gap &&

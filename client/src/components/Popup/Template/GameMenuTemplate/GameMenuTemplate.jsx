@@ -7,6 +7,7 @@ import Col from '../../../Layout/Col/Col';
 import Button from '../../../Button/Button';
 
 import { TextButton } from './GameMenuTemplate.style';
+import isMobile from '../../../../utils/window';
 
 function GameMenuTemplate({
   selectedCategory,
@@ -15,7 +16,12 @@ function GameMenuTemplate({
   children,
 }) {
   return (
-    <Col width="min(700px, 50vw)" justify="center" align="center" gap={33}>
+    <Col
+      width={isMobile() ? '100%' : 'min(700px, 50vw)'}
+      justify="center"
+      align="center"
+      gap={33}
+    >
       <Row width="100%" justify="center" gap={50}>
         <TextButton
           className={selectedCategory === GAME.SETTING ? 'selected' : ''}
