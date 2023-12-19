@@ -52,6 +52,7 @@ function Game({ user, setUser }) {
     onSongPlayHandler,
     onSongStopHandler,
     onSkipHandler,
+    onForceSkipHandler,
     onDisconnectHandler,
   ] = useSocketIO(
     user,
@@ -118,8 +119,15 @@ function Game({ user, setUser }) {
         </Popup>
       )}
 
-      <Col flex={1} height="100%" align="center" padding="16px 0" gap={10}>
-        <Row width="100%">
+      <Col
+        flex={1}
+        height="100%"
+        align="center"
+        padding="16px 0"
+        gap={10}
+        width="100%"
+      >
+        <Row width="100%" justify="center">
           <Icon
             name="back_circle"
             clickable
@@ -201,13 +209,24 @@ function Game({ user, setUser }) {
                 text={notice}
               />
 
-              {song && !songContinued && skip.total !== skip.agree && (
-                <Button
-                  type={skip.voted ? 'Primary' : 'Secondary'}
-                  text={`건너뛰기 ${skip.agree}/${skip.total}`}
-                  onClickHandler={() => onSkipHandler(user, skip.voted)}
-                />
-              )}
+              <Row gap={2}>
+                {song && !songContinued && skip.total !== skip.agree && (
+                  <>
+                    <Button
+                      type={skip.voted ? 'Primary' : 'Secondary'}
+                      text={`건너뛰기 ${skip.agree}/${skip.total}`}
+                      onClickHandler={() => onSkipHandler(user, skip.voted)}
+                    />
+                    {user.role === USER_ROLE.HOST && (
+                      <Button
+                        type={skip.voted ? 'Primary' : 'Secondary'}
+                        text={`바로 건너뛰기\n(방장전용)`}
+                        onClickHandler={() => onForceSkipHandler(user)}
+                      />
+                    )}
+                  </>
+                )}
+              </Row>
             </Col>
           )}
 
@@ -365,11 +384,20 @@ function Game({ user, setUser }) {
             />
 
             {song && !songContinued && skip.total !== skip.agree && (
-              <Button
-                type={skip.voted ? 'Primary' : 'Secondary'}
-                text={`건너뛰기 ${skip.agree}/${skip.total}`}
-                onClickHandler={() => onSkipHandler(user, skip.voted)}
-              />
+              <>
+                <Button
+                  type={skip.voted ? 'Primary' : 'Secondary'}
+                  text={`건너뛰기 ${skip.agree}/${skip.total}`}
+                  onClickHandler={() => onSkipHandler(user, skip.voted)}
+                />
+                {user.role === USER_ROLE.HOST && (
+                  <Button
+                    type={skip.voted ? 'Primary' : 'Secondary'}
+                    text={`바로 건너뛰기\n(방장전용)`}
+                    onClickHandler={() => onForceSkipHandler(user)}
+                  />
+                )}
+              </>
             )}
           </Col>
 

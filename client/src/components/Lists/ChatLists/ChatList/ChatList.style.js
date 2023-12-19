@@ -26,6 +26,7 @@ export const StyledParagraph = styled(Paragraph)`
 `;
 
 export const ChatMessage = styled.p`
+  white-space: pre-wrap;
   ${({ theme }) => theme.TextStyles.Paragraph3};
 
   ${({ isMyMessage, theme }) =>

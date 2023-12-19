@@ -154,7 +154,7 @@ io.on("connection", (socket) => {
       room.updateScore(user);
 
       const noticeMessage = {
-        message: `${user.nickname} 정답`,
+        message: `${user.nickname} 정답\n${room.song.song} - ${room.song.artist}`,
         type: "notice",
       };
 
@@ -200,7 +200,25 @@ io.on("connection", (socket) => {
       io.to(roomId).emit("continue", true);
 
       const noticeMessage = {
-        message: "노래를 스킵했습니다",
+        message: `노래를 스킵했습니다\n${room.song.song} - ${room.song.artist}`,
+        type: "notice",
+      };
+      io.to(room.id).emit("message", noticeMessage);
+    }
+  });
+
+  socket.on("force_skip", ({ roomId, userId }) => {
+    const room = Rooms.findRoom(roomId);
+    const user = room.findUser(userId);
+
+    if (user.role === "host") {
+      room.isAllowed = false;
+
+      io.to(roomId).emit("notice", `${room.song.song} - ${room.song.artist}`);
+      io.to(roomId).emit("continue", true);
+
+      const noticeMessage = {
+        message: `방장이 노래를 스킵했습니다\n${room.song.song} - ${room.song.artist}`,
         type: "notice",
       };
       io.to(room.id).emit("message", noticeMessage);

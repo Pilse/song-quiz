@@ -41,7 +41,8 @@ module.exports = {
     host: 'localhost',
     proxy: {
       '/rooms': {
-        target: 'https://song-quiz.herokuapp.com',
+        // target: 'https://song-quiz.herokuapp.com',
+        target: 'http://localhost:8020',
         changeOrigin: true,
       },
     },

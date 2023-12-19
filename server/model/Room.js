@@ -1,4 +1,5 @@
 const songs = require("../utils/sampleSongs");
+const validSongs = songs.filter((song) => song.video);
 
 class Room {
   constructor(roomId, winningCondition) {
@@ -53,7 +54,7 @@ class Room {
   }
 
   updateSong() {
-    this.song = songs[Math.floor(Math.random() * 388)];
+    this.song = validSongs[Math.floor(Math.random() * validSongs.length)];
     this.round += 1;
   }
 

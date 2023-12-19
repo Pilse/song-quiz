@@ -20,7 +20,7 @@ function useSocketIO(
 ) {
   const socket = useMemo(
     () =>
-      io('https://song-quiz.herokuapp.com', {
+      io('http://localhost:8020', {
         'force new connection': true,
         reconnectionAttempts: 'Infinity',
         timeout: 100000,
@@ -151,11 +151,16 @@ function useSocketIO(
     setSkip(prev => ({ ...prev, voted: !prev.voted }));
   };
 
+  const onForceSkipHandler = _user => {
+    socket.emit('force_skip', { roomId: _user.roomId, userId: _user.id });
+  };
+
   return [
     onKeyPressHandler,
     onSongPlayHandler,
     onSongStopHandler,
     onSkipHandler,
+    onForceSkipHandler,
     onDisconnectHandler,
   ];
 }
